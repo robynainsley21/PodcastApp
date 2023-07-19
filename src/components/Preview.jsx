@@ -8,9 +8,8 @@ const Preview = () => {
     //     seasons: ''
     // })
 
-    console.log(data)
+    
     const eachTitle = data.map(item => {
-        console.log(item)
         return (
             <div className='preview border-radius'>            
                 <img src={item.image} alt="show-image" />

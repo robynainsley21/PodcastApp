@@ -44,17 +44,14 @@
 /* HOME CONTENT */
 .preview{
   background-color: #17AFA0;
-  padding: 1rem;
 }
 
 .grid-container{
   display: grid;
   grid-template-columns: repeat(2, 180px);
-  gap: 7px;
   align-items: center;
   justify-content: center;
 }
-
 
 @media screen and (max-width: 667px) {
   /* HERO */
@@ -113,17 +110,18 @@
   }
 
   .preview{
+    padding: 1.2rem;   
     width: 130px;
-    
+    font-size: 1.1rem;
+    font-weight: 600;
     height: 220px;
+    margin: 0 0 1rem .4rem;
   }
 
   .preview > img{
     width: 100px;
-    
+   
   }
 
-  .grid-container{
-    grid-row: 6px;
-  }
+  
 }
