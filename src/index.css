@@ -2,9 +2,9 @@
   font-family: Dosis, sans-serif;
   line-height: 1.5;
   margin: 0;
+  font-size: 1rem;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
   background-color: #F1FDFC;
 
   font-synthesis: none;
@@ -21,14 +21,51 @@
 
 .logo-name{
   font-family: Damion, sans-serif;
-  font-size: 2rem;
   color: #0B5B53;
 }
+
+.border-radius{
+  border-radius: 1rem;
+}
+
+/* SEARCH BUTTONS */
+.main-search{
+  background-color: #F1FDFC;
+  color: #0B5B53;
+  font-weight: 600;
+}
+
+.search{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* HOME CONTENT */
+.preview{
+  background-color: #17AFA0;
+  padding: 1rem;
+}
+
+.grid-container{
+  display: grid;
+  grid-template-columns: repeat(2, 180px);
+  gap: 7px;
+  align-items: center;
+  justify-content: center;
+}
+
 
 @media screen and (max-width: 667px) {
   /* HERO */
   .logo{
     width: 40px;
+  }
+
+  .logo-name{
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
   }
 
   .nav{
@@ -38,10 +75,55 @@
     justify-content: space-between;
     align-items: center;
     border: 1px solid;
-    border-radius: 1rem;
   }
 
   .settings{
     height: 25px;
+  }
+
+  .main-search{
+    height: 2.5rem;
+    font-size: 1.45rem; 
+    font-weight: 600; 
+    padding: 5px;  
+    width: 70%;
+    margin-bottom: 1rem;
+  }
+
+  .alphabetical-buttons > button{
+    padding: 5px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    background-color: #74CEC4;
+    border-radius: .9rem;
+    width: 170px;
+  }
+
+  .alphabetical-buttons{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 7px;
+    margin: 5px;
+  }
+
+  /* MAIN CONTENT */
+  .title{
+    font-weight: 600;
+    font-size: 1.8rem;
+  }
+
+  .preview{
+    width: 130px;
+    
+    height: 220px;
+  }
+
+  .preview > img{
+    width: 100px;
+    
+  }
+
+  .grid-container{
+    grid-row: 6px;
   }
 }
