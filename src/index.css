@@ -108,7 +108,7 @@
     margin: 5px;
   }
 
-  /* MAIN CONTENT */
+  /* PREVIEW */
   .title{
     font-weight: 600;
     font-size: 1.8rem;
@@ -136,4 +136,29 @@
 
   /* OVERLAY */
   
+}
+
+@media screen and (min-width: 667px){
+  /* NAVBAR */
+  .nav{
+    display: flex;
+    margin: auto;
+    width: 95%;
+  }
+
+  .logo{
+    max-width: 150px;
+    margin: 5px;  
+
+  }
+
+  .settings{
+    max-width: 70px;
+    height: auto;
+  }
+
+  /* PREVIEW */
+  .preview > img{
+    width: 100px; 
+  }
 }

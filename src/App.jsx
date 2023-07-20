@@ -32,28 +32,36 @@ const App = () => {
 
   const [isOpen, setIsOpen] = useState(false)
 
-  const eachPreview = () => {
-    return (
-      <dialog>
-          <Overlay
-              id={userData.id}
-              img={userData.image}
-              title={userData.title}
-              description={userData.description}
-              genres={userData.genres}
-              seasons={userData.seasons}
-              updated={userData}
-           /> 
-            <button onClick={togglePreview}>Close modal</button>
-         
-      </dialog>
-    )
-  }
+  // const eachPreview = () => {
+  //   return (
+  //         <Overlay
+  //             id={userData.id}
+  //             img={userData.image}
+  //             title={userData.title}
+  //             description={userData.description}
+  //             genres={userData.genres}
+  //             seasons={userData.seasons}
+  //             updated={userData}
+  //          /> 
+  //   )
+  // }
 
   const togglePreview = () => {
     console.log('i was clicked')
     setIsOpen(!isOpen)
-    
+
+    return (
+      <Overlay
+          isOpen={isOpen}
+          id={userData.id}
+          img={userData.image}
+          title={userData.title}
+          description={userData.description}
+          genres={userData.genres}
+          seasons={userData.seasons}
+          updated={userData}
+       /> 
+)
   }
 
 
