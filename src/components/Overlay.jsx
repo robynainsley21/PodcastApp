@@ -1,27 +1,16 @@
-import { Fragment } from 'react'
+import React from 'react'
 
-const Overlay = ({ isOpen, onClose, children }, props) => {
+const Overlay = (props) => {
     return (
-        <Fragment key={props.id}>
-            {...isOpen && (
-            <div className='overlay' >
-                <div className='overlay-background' onClick={onClose} />
-                <div className='overlay-container'>
-                    <div className='overlay-controls'>
-                        <button 
-                            className='overlay-close'
-                            type='button'
-                            onClick={onClose}
-                        />
-                    </div>
-                    {children}
-                </div>                
-            </div>
-          )}
-        </Fragment>
-          
-        
-      )
+        <div key={props.id} onClick={props.handlerPreview}>
+            <img src={props.img} alt="podcast-image" />
+            <p>{props.title}</p>
+            <p>{props.description}</p>
+            <p>Seasons: {props.seasons}</p>
+            <p>Genres: {props.genres}</p>
+            <p>Date Updated: {props.updated}</p>
+        </div>
+    )
 }
 
 export default Overlay

@@ -3,6 +3,10 @@ import Hero from './components/Hero'
 import Preview from './components/Preview'
 import Overlay from './components/Overlay'
 
+import Modal from 'react-modal'
+
+// Modal.setAppElement("#root");
+
 const App = () => {
   const [userData, setUserData] = useState([])
 
@@ -28,14 +32,34 @@ const App = () => {
 
   const [isOpen, setIsOpen] = useState(false)
 
+  const eachPreview = () => {
+    return (
+      <dialog>
+          <Overlay
+              id={userData.id}
+              img={userData.image}
+              title={userData.title}
+              description={userData.description}
+              genres={userData.genres}
+              seasons={userData.seasons}
+              updated={userData}
+           /> 
+            <button onClick={togglePreview}>Close modal</button>
+         
+      </dialog>
+    )
+  }
+
   const togglePreview = () => {
     console.log('i was clicked')
     setIsOpen(!isOpen)
+    
   }
 
-  const eachPreview = userData.map(item => {
+
+  const eachCard = userData.map(item => {
     return (
-      
+      <div>
         <Preview
           key={item.id}
           img={item.image}
@@ -43,10 +67,19 @@ const App = () => {
           seasons={item.seasons}
           handlerPreview={togglePreview}
         />
+
+      
+      </div>
+        
         
       
     )
   })
+  /**
+   * - create a function that generates content for preview
+   * - how to add button?
+   * - call in return
+   */
 
   return (
     <>
@@ -57,22 +90,9 @@ const App = () => {
 
       <h2 className='title'>Browse</h2> 
       <div className='grid-container'>
-        {eachPreview}
+        {eachCard}
       </div>     
-      <Overlay 
-        isOpen={isOpen}
-        onClose={togglePreview}
-        
-      >
-        <div >
-          <img src={userData.image} alt="podcast-image" />
-          <p>{userData.title}</p>
-          <p>Seasons: {userData.seasons}</p>
-          <p>Description: {userData.description}</p>
-          <p>Genres: {userData.genres}</p>
-          <p>Date Updated: {userData.updated}</p>
-        </div>
-      </Overlay>
+      
     </>
   )
 }

@@ -4,7 +4,9 @@ const Hero = () => {
     return (
         <>
             <div className='nav border-radius'>
-                <img className='logo' src="podcast.png" alt="logo-image" />
+               <a href='index.html'>
+                    <img className='logo' src="podcast.png" alt="logo-image" />
+                </a>
                 <img className='settings' src="settings.png" alt="settings-image" />
             </div>
             <div className='logo-name'>
