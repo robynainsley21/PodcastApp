@@ -93,15 +93,17 @@
 
 /* OVERLAY */
 .preview-overlay{
-  position: absolute;
+  /* position: fixed;
+  z-index: 10; */
   width: 90%;
-  height: auto;
+  height: 100%;
   border: 1px solid;
   background-color: #0B5B53;
   font-weight: 600;
 }
 
 .preview-inner{
+  /* position: relative; */
   width: 100%;
 }
 
@@ -228,7 +230,7 @@
   }
 
   .preview{    
-    height: 50rem;
+    height: 40rem;
     font-size: 2rem;
   }
 
