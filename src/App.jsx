@@ -69,7 +69,7 @@ const App = () => {
 
   const dialogBox = () => {
     return (
-      <>
+      
         <Overlay
             isOpen={isOpen}
             id={userData.id}
@@ -80,7 +80,7 @@ const App = () => {
             seasons={userData.seasons}
             updated={userData}
         />
-      </>
+      
       
     )
   }
@@ -92,16 +92,15 @@ const App = () => {
 
   return (
     <>
-      <Hero />
-
-      <dialog className='preview-overlay' open={isOpen}>
-        {dialogBox}
-      </dialog>
+      <Hero />     
 
       <h2 className='title'>Suggested</h2>
       
 
       <h2 className='title'>Browse</h2> 
+      <dialog className='preview-overlay' open={isOpen}>
+        {dialogBox}
+      </dialog>
       <div className='grid-container'>
         {eachCard}
       </div>     

@@ -50,14 +50,26 @@
 .alphabetical-buttons > button{
   background-color: #74CEC4;
   font-weight: 600;
+  padding: 1rem;
+}
+
+.alphabetical-buttons{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
 }
 
 /* HOME CONTENT */
 .preview{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  padding: 1rem;
   background-color: #17AFA0;
   transition: all 0.1s ease-in-out;
   font-weight: 600;
-  max-width: 100%;
 }
 
 .preview:hover {
@@ -66,6 +78,7 @@
 
 .grid-container{
   display: grid;
+  width: 100%;
 }
 
 .preview-btn{
@@ -75,8 +88,13 @@
 }
 
 .preview-overlay{
+  position: absolute;
   width: 100%;
-  height: 6rem;
+  height: 100%;
+}
+
+.preview >image{
+  min-width: 80px;
 }
 
 @media screen and (max-width: 667px) {
@@ -109,15 +127,12 @@
 
   .alphabetical-buttons > button{
     padding: 5px;
-    font-size: 1.4rem;
+    font-size: 1rem;
     border-radius: .9rem;
     width: 170px;
   }
 
   .alphabetical-buttons{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 7px;
     margin: 5px;
   }
 
@@ -144,9 +159,8 @@
   }
 
   .grid-container{
-    grid-template-columns: repeat(2, 180px);
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
-
   }
   /* OVERLAY */
   
@@ -191,7 +205,7 @@
   .alphabetical-buttons > button{
     width: 300px;
     height: 5rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 3rem;
   }
 
@@ -202,30 +216,23 @@
 
   /* PREVIEW */
   .preview > img{
-    width: 20rem; 
+    width: 10rem; 
   }
 
-  .preview{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 100%;
-    padding: 3rem;
+  .preview{    
     height: 50rem;
-    font-size: 3rem;
+    font-size: 2rem;
   }
 
-  .preview-btn{
-    
+  .preview-btn{    
     height: 5rem;
     font-size: 1.5rem;
-    padding: 1rem;
+    padding: .9rem;
   }
 
   .grid-container{
     grid-template-columns: repeat(3, 1fr);
-    gap: 5rem;
+    gap: 3rem;
     padding: 1rem;
   }
 
