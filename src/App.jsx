@@ -47,7 +47,6 @@ const App = () => {
   // }
 
   const togglePreview = () => {
-    console.log('i was clicked')
     setIsOpen(!isOpen)
   }
 
@@ -60,35 +59,10 @@ const App = () => {
           title={item.title}
           seasons={item.seasons}
           handlerPreview={togglePreview}
-        />
-
-      
+        />      
       </div>  
     )
   })
-
-  const dialogBox = () => {
-    return (
-      
-        <Overlay
-            isOpen={isOpen}
-            id={userData.id}
-            img={userData.image}
-            title={userData.title}
-            description={userData.description}
-            genres={userData.genres}
-            seasons={userData.seasons}
-            updated={userData}
-        />
-      
-      
-    )
-  }
-  /**
-   * - create a function that generates content for preview
-   * - how to add button?
-   * - call in return
-   */
 
   return (
     <>
@@ -96,11 +70,22 @@ const App = () => {
 
       <h2 className='title'>Suggested</h2>
       
+      {/* suggestions to be put here */}
 
       <h2 className='title'>Browse</h2> 
-      <dialog className='preview-overlay' open={isOpen}>
-        {dialogBox}
+
+      <dialog className='preview-overlay border-radius' open={isOpen}>
+        <div className='overlay-inner' key={userData.id} open >
+          <img src={userData.image} alt="podcast-image" />
+          <p>{userData.title}</p>
+          <p>{userData.description}</p>
+          <p>Seasons: {userData.seasons}</p>
+          <p>Genres: {userData.genres}</p>
+          <p>Date Updated: {userData.updated}</p>
+          <button className='border-radius' onClick={togglePreview}>Close modal</button>
+        </div>      
       </dialog>
+
       <div className='grid-container'>
         {eachCard}
       </div>     
