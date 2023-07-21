@@ -10,14 +10,26 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
-
-// Modal.setAppElement("#root");
 
 const App = () => {
+  /**
+   * State for retrieval of user data from API
+   */
   const [userData, setUserData] = useState([])
 
+  /**
+   * State to set boolean for open and close function of preview overlay
+   */
+  const [isOpen, setIsOpen] = useState(false)
+
+  /**
+   * State to manage the podcast summary overlay scroll feature
+   */
+  const [scroll, setScroll] = useState('paper')
+
+  /**
+   * Fetches user data via API
+   */
   const fetchUserData = () => {
     fetch("https://podcast-api.netlify.app/shows")
       .then(response => response.json())
@@ -38,18 +50,22 @@ const App = () => {
   //   )
   // })
 
-  const [isOpen, setIsOpen] = useState(false)
-
-  const togglePreviewOpen = () => {
-    console.log('im supposed to be open')
+  
+  /**
+   * Setting booleans for 'Show preview' button and overlay 'close' button 
+   */
+  const togglePreviewOpen = (scrollType) => () => {
     setIsOpen(true)
+    setScroll(scrollType)
   }
 
   const togglePreviewClose = () => {
-    console.log('im supposed to be closed')
     setIsOpen(false)
   }
 
+  /**
+   * Generating a card for each podcast receiving structure from its component
+   */
   const eachCard = userData.map(item => {
     return (
       <div>
@@ -58,42 +74,46 @@ const App = () => {
           img={item.image}
           title={item.title}
           seasons={item.seasons}
-          handlerPreview={togglePreviewOpen}
+          handlerPreview={togglePreviewOpen('paper')}
         />      
       </div>  
     )
   })
 
-  const theme = useTheme()
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  /**
+   * Logic to display overlay that makes use of MUI components
+   */
+  const descriptionElementRef = React.useRef(null);
 
-  // const dialog = () => {
-  //   return (
-  //     <div>
-  //       <Dialog
-  //         fullScreen={fullScreen}
-  //         open
-  //         onClose={togglePreviewClose}
-  //         aria-labelledby="responsive-dialog-title"
-  //         // key={}
-  //       >
-  //         <DialogContent>
-  //           <DialogContentText>
-  //             Let Google help apps determine location. This means sending anonymous
-  //             location data to Google, even when no apps are running.
-  //           </DialogContentText>
-  //         </DialogContent>
+  React.useEffect(() => {
+    if (isOpen) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [isOpen]);
 
-  //         <DialogActions>
-  //           <Button autoFocus onClick={togglePreviewClose}>
-  //             Close
-  //           </Button>
-  //         </DialogActions>
+  /**
+   * Creating content to be displayed on each podcast overlay
+   */
+  const found = userData.find(obj => {
+    
+      return (
+        obj.id,
+        obj.title,
+        obj.description,
+        obj.image,
+        obj.seasons,
+        obj.genres,
+        obj.updated
+      )
+   
+    
+    
+  })
 
-  //       </Dialog>
-  //     </div>
-  //   )
-  // }
+  // console.log(found)
 
   return (
     <div>
@@ -105,29 +125,41 @@ const App = () => {
 
       <h2 className='title'>Browse</h2> 
 
-      {/* NEW OVERLAY */}
-      {/* {dialog} */}
       <div>
         <Dialog
-          fullScreen={fullScreen}
           open={isOpen}
           onClose={togglePreviewClose}
-          aria-labelledby="responsive-dialog-title"
-          // key={}
+          scroll={scroll}
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description"
         >
-          <DialogContent>
-            <DialogContentText>
-              Let Google help apps determine location. This means sending anonymous
-              location data to Google, even when no apps are running.
+          <DialogTitle id="scroll-dialog-title">Title: {found.title}</DialogTitle>
+          <DialogContent dividers={scroll === 'paper'}>
+            <DialogContentText
+              id="scroll-dialog-description"
+              ref={descriptionElementRef}
+              tabIndex={-1}
+            >
+              {
+                found &&
+                <div key={found.id}>
+                  <img src={found.image} alt="podcast-image" />
+                  <h3>Description: </h3>
+                  <p>{found.description}</p>
+                  <p>Genres: {found.genres}</p>
+                  <p>Date updated: {found.updated}</p>
+                </div>
+              }
+              {/* {[...new Array(50)]
+                .map(
+                  () => 'this where the content goes',
+                )
+                .join('\n')} */}
             </DialogContentText>
           </DialogContent>
-
           <DialogActions>
-            <Button autoFocus onClick={togglePreviewClose}>
-              Close
-            </Button>
+            <Button onClick={togglePreviewClose}>Close</Button>
           </DialogActions>
-
         </Dialog>
       </div>
 
