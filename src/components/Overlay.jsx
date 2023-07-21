@@ -2,7 +2,7 @@ import React from 'react'
 
 const Overlay = (props) => {
     return (
-        <dialog key={props.id} open >
+        <div key={props.id} open >
             <img src={props.img} alt="podcast-image" />
             <p>{props.title}</p>
             <p>{props.description}</p>
@@ -11,7 +11,7 @@ const Overlay = (props) => {
             <p>Date Updated: {props.updated}</p>
             <button onClick={props.handlerPreview}>Close modal</button>
 
-        </dialog>
+        </div>
     )
 }
 

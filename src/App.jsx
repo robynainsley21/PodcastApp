@@ -49,21 +49,7 @@ const App = () => {
   const togglePreview = () => {
     console.log('i was clicked')
     setIsOpen(!isOpen)
-
-    return (
-      <Overlay
-          isOpen={isOpen}
-          id={userData.id}
-          img={userData.image}
-          title={userData.title}
-          description={userData.description}
-          genres={userData.genres}
-          seasons={userData.seasons}
-          updated={userData}
-       /> 
-)
   }
-
 
   const eachCard = userData.map(item => {
     return (
@@ -77,12 +63,27 @@ const App = () => {
         />
 
       
-      </div>
-        
-        
-      
+      </div>  
     )
   })
+
+  const dialogBox = () => {
+    return (
+      <>
+        <Overlay
+            isOpen={isOpen}
+            id={userData.id}
+            img={userData.image}
+            title={userData.title}
+            description={userData.description}
+            genres={userData.genres}
+            seasons={userData.seasons}
+            updated={userData}
+        />
+      </>
+      
+    )
+  }
   /**
    * - create a function that generates content for preview
    * - how to add button?
@@ -93,8 +94,12 @@ const App = () => {
     <>
       <Hero />
 
-      {/* <h2 className='title'>Suggested</h2>
-      {suggestions} */}
+      <dialog className='preview-overlay' open={isOpen}>
+        {dialogBox}
+      </dialog>
+
+      <h2 className='title'>Suggested</h2>
+      
 
       <h2 className='title'>Browse</h2> 
       <div className='grid-container'>

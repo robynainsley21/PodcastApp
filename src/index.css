@@ -14,14 +14,20 @@
   -webkit-text-size-adjust: 100%;
 }
 
-/* NAVBAR */
+/* HERO */
 .nav{
   background-color: #0B5B53;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid;
 }
 
 .logo-name{
   font-family: Damion, sans-serif;
   color: #0B5B53;
+  display: flex;
+  justify-content: center;
 }
 
 .border-radius{
@@ -41,10 +47,17 @@
   align-items: center;
 }
 
+.alphabetical-buttons > button{
+  background-color: #74CEC4;
+  font-weight: 600;
+}
+
 /* HOME CONTENT */
 .preview{
   background-color: #17AFA0;
   transition: all 0.1s ease-in-out;
+  font-weight: 600;
+  max-width: 100%;
 }
 
 .preview:hover {
@@ -53,9 +66,17 @@
 
 .grid-container{
   display: grid;
-  grid-template-columns: repeat(2, 180px);
-  align-items: center;
-  justify-content: center;
+}
+
+.preview-btn{
+  width: 60%;
+  background-color:#F1FDFC;
+  height: auto;
+}
+
+.preview-overlay{
+  width: 100%;
+  height: 6rem;
 }
 
 @media screen and (max-width: 667px) {
@@ -65,18 +86,13 @@
   }
 
   .logo-name{
-    font-size: 2rem;
-    display: flex;
-    justify-content: center;
+    font-size: 2rem;    
   }
 
   .nav{
     height: 3rem;
     padding: .3rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid;
+    
   }
 
   .settings{
@@ -86,7 +102,6 @@
   .main-search{
     height: 2.5rem;
     font-size: 1.45rem; 
-    font-weight: 600; 
     padding: 5px;  
     width: 70%;
     margin-bottom: 1rem;
@@ -95,8 +110,6 @@
   .alphabetical-buttons > button{
     padding: 5px;
     font-size: 1.4rem;
-    font-weight: 600;
-    background-color: #74CEC4;
     border-radius: .9rem;
     width: 170px;
   }
@@ -116,11 +129,8 @@
 
   .preview{
     padding: 1.2rem;   
-    width: 130px;
     font-size: 1.1rem;
-    font-weight: 600;
     height: 300px;
-    margin: 0 0 1rem .4rem;
   }
 
   .preview > img{
@@ -131,34 +141,92 @@
     width: 100px;
     height: 1.3rem;
     font-weight: 600px;
-    background-color: #17AFA0;
   }
 
+  .grid-container{
+    grid-template-columns: repeat(2, 180px);
+    gap: 2rem;
+
+  }
   /* OVERLAY */
   
 }
 
 @media screen and (min-width: 667px){
-  /* NAVBAR */
+  /* HERO */
   .nav{
     display: flex;
-    margin: auto;
+    margin: 5rem auto;
     width: 95%;
   }
 
   .logo{
-    max-width: 150px;
-    margin: 5px;  
-
+    max-width: 85px;
+    margin: 2rem 4rem;  
   }
 
   .settings{
-    max-width: 70px;
-    height: auto;
+    width: 60px;
+    height: 60px;
+    margin: 2rem 4rem;  
+  }
+
+  .logo-name{
+    font-size: 5rem;
+  }
+
+  .main-search{
+    height: 5rem;
+    width: 40%;
+    font-size: 2.3rem;
+    padding: 1rem;
+    margin: 5rem;
+  }
+
+  .alphabetical-buttons{
+    margin: 3rem;
+    width: 100%;
+  }
+
+  .alphabetical-buttons > button{
+    width: 300px;
+    height: 5rem;
+    font-size: 2rem;
+    margin: 3rem;
+  }
+
+  .title{
+    font-size: 5rem;
+    margin-left: 10rem;
   }
 
   /* PREVIEW */
   .preview > img{
-    width: 100px; 
+    width: 20rem; 
   }
+
+  .preview{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    padding: 3rem;
+    height: 50rem;
+    font-size: 3rem;
+  }
+
+  .preview-btn{
+    
+    height: 5rem;
+    font-size: 1.5rem;
+    padding: 1rem;
+  }
+
+  .grid-container{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5rem;
+    padding: 1rem;
+  }
+
 }
