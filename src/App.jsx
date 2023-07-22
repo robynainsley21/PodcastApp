@@ -109,9 +109,7 @@ const App = () => {
   }, [isOpen]);
 
   /**
-   * Creating content to be displayed on each podcast overlay
-   * use a forEach
-   * use full-screen-dialog for
+   * Creating content to be displayed on each podcast overlay 
    */
 
   // const found = userData.find(obj => {
@@ -138,7 +136,6 @@ const App = () => {
   })
 
 
-  // console.log(podcasts)
  
   /**
    * Arranging podcasts in alphabetical order based its title
@@ -177,7 +174,7 @@ const App = () => {
   }
 
   /**
-   * Arranging podcast cards by most recently updated 
+   * Arranging podcast cards by oldest to latest 
    */
   const dateOldest = () => {
     const arrangedDate = [...userData].sort((a, b) => {
@@ -203,13 +200,7 @@ const App = () => {
     console.log(updatedUserDate)
     console.log(query)
    }
-  //   setSearched(prevFormData => {
-  //     return {
-  //         ...prevFormData,
-  //         [event.target.name]: event.target.value
-  //     }
-  // })
-
+ 
 
   
   return (

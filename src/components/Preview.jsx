@@ -9,7 +9,9 @@ const Preview = (props) => {
                 <p>{props.title}</p>
                 <p>Seasons: {props.seasons}</p>
                 <p>Last updated: {props.updated}</p>
-                <button className='preview-btn border-radius' onClick={props.handlerPreview}>Show preview</button>
+                <button className='preview-btn border-radius' onClick={props.handlerPreview}>Preview</button>
+                <button className='preview-btn border-radius' >Episodes</button>
+
             </div>
         </div>
         

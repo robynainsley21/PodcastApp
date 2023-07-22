@@ -109,18 +109,16 @@
   padding: 1rem;
   border-radius: 10px;
   background-color: #0B5B53;
-  color: #F1FDFC;
-  
+  color: #F1FDFC;  
 }
 
-.episode-btn{
+/* .episode-btn{
   font-size: 1.5rem;
   border-radius: 10px;
   background-color: #0B5B53;
   color: #F1FDFC;
   padding: .9rem;
-
-}
+} */
 
 .overlay-button{
   display: flex;
@@ -128,7 +126,6 @@
   align-items: center;
   justify-content: center;
 }
-
 
 @media screen and (max-width: 667px) {
   /* HERO */
@@ -142,8 +139,7 @@
 
   .nav{
     height: 3rem;
-    padding: .3rem 1rem;
-    
+    padding: .3rem 1rem;    
   }
 
   .settings{
@@ -176,13 +172,13 @@
   }
 
   .preview{
-    padding: 1.2rem;   
-    font-size: 1.1rem;
+    padding: 1rem;   
+    font-size: .9rem;
     height: 300px;
   }
 
   .preview > img{
-    width: 100px;   
+    width: 90px;   
   }
 
   .preview-btn{
@@ -254,13 +250,13 @@
 
   .preview{    
     height: 40rem;
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .preview-btn{    
     height: 5rem;
-    font-size: 1.5rem;
-    padding: .9rem;
+    font-size: 1.3rem;
+    padding: .7rem;
   }
 
   .grid-container{
@@ -269,4 +265,5 @@
     padding: 1rem;
   }
 
+ 
 }
