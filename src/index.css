@@ -47,10 +47,14 @@
   align-items: center;
 }
 
-.alphabetical-buttons > button{
+.alpha-btn{
   background-color: #74CEC4;
   font-weight: 600;
   padding: 1rem;
+}
+
+.alpha-btn:hover{
+  background-color: #F1FDFC;
 }
 
 .alphabetical-buttons{
@@ -92,20 +96,39 @@
 }
 
 /* OVERLAY */
-.preview-overlay{
-  /* position: fixed;
-  z-index: 10; */
-  width: 90%;
-  height: 100%;
-  border: 1px solid;
-  background-color: #0B5B53;
-  font-weight: 600;
+.overlay-image{
+  width: 10rem;
 }
 
-.preview-inner{
-  /* position: relative; */
-  width: 100%;
+.overlay{
+  font-size: 1.7rem;
 }
+
+.overlay-button > button{
+  font-size: 1.5rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #0B5B53;
+  color: #F1FDFC;
+  
+}
+
+.episode-btn{
+  font-size: 1.5rem;
+  border-radius: 10px;
+  background-color: #0B5B53;
+  color: #F1FDFC;
+  padding: .9rem;
+
+}
+
+.overlay-button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 
 @media screen and (max-width: 667px) {
   /* HERO */

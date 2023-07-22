@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Hero = () => {
+const Hero = (props) => {
     return (
         <>
             <div className='nav border-radius'>
@@ -13,12 +13,13 @@ const Hero = () => {
                 <h1>Podify</h1>
             </div>
             <div className='search'>
-                <input className='main-search border-radius' placeholder='Search by Name'/>
+                <input className='main-search border-radius' placeholder='Search by title' onChange={props.handlerSearch}/>
+                {/* <button onClick={props.handlerSearch}>Search</button> */}
                 <div className='alphabetical-buttons'>
-                    <button className='border-radius'>Title A-Z</button>
-                    <button className='border-radius'>Title Z-A</button>
-                    <button className='border-radius'>Date A-Z</button>
-                    <button className='border-radius'>Date Z-A</button>                           
+                    <button className='alpha-btn border-radius' onClick={props.handlerTitleOrder}>Title A-Z</button>
+                    <button className='alpha-btn border-radius' onClick={props.handlerTitleDescending}>Title Z-A</button>
+                    <button className='alpha-btn border-radius' onClick={props.handlerDateAscending}>Recent</button>
+                    <button className='alpha-btn border-radius' onClick={props.handlerDateDescending}>Oldest</button>                           
                 </div>
             </div>
         </>
