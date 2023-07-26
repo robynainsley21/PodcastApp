@@ -3,7 +3,6 @@
   line-height: 1.5;
   margin: 0;
   font-size: 1rem;
-  color:#0B5B53;
 
 
   color-scheme: light dark;
@@ -101,13 +100,9 @@
 }
 
 .preview{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 100%;
   padding: 1rem;
-  background-color: #17AFA0;
+  border: 1px solid;
+  font-size: 1rem;
   transition: all 0.1s ease-in-out;
   font-weight: 600;
 }
@@ -120,10 +115,11 @@
   display: grid;
   width: 100%;
   margin-top: 1.5rem;
+  color:#0B5B53;
 }
 
 .preview-btn{
-  width: 60%;
+  width: 40%;
   background-color:#F1FDFC;
   height: auto;
   color:#0B5B53;
@@ -135,68 +131,22 @@
 }
 
 /* OVERLAY */
-.overlay-image{
-  width: 10rem;
-}
-
 .overlay{
-  font-size: 1.7rem;
+  color:#0B5B53;  
+  width: 100%;
+  border-width: 0;
+  box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
 }
 
-.overlay-button > button{
-  font-size: 1.5rem;
+.overlay-btn{
+  background-color: #0B5B53;
+  padding: .4rem 1rem;
+}
+
+.title-container{
+  display: flex;
+  justify-content: space-around;
   padding: 1rem;
-  border-radius: 10px;
-  background-color: #0B5B53;
-  color: #F1FDFC;  
-}
-
-/* .episode-btn{
-  font-size: 1.5rem;
-  border-radius: 10px;
-  background-color: #0B5B53;
-  color: #F1FDFC;
-  padding: .9rem;
-} */
-
-.overlay-button{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* SEASONS */
-.episode-container{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1.5rem;
-  border: 1px solid;
-}
-
-.back-btn{
-  border: 1px solid;
-  background-color: #17AFA0;
-  width: 10rem;
-  text-align: center;
-  padding: .3rem;
-  color:#0B5B53;
-  font-weight: 600;
-}
-
-.episode-container> a{
-  text-decoration: none;
-}
-
-.episode-inner{
-  color:#0B5B53;
-}
-
-.back-btn:hover{
-  background-color: #F1FDFC;
- 
 }
 
 /* HAMBURGER */
@@ -353,20 +303,17 @@
     width: 10rem; 
   }
 
-  .preview{    
-    height: 40rem;
-    font-size: 1.8rem;
-  }
+
+
 
   .preview-btn{    
-    height: 5rem;
-    font-size: 1.3rem;
-    padding: .5rem;
+    font-size: 1rem;
+    padding: .3rem;
   }
 
   .grid-container{
     grid-template-columns: repeat(3, 1fr);
-    gap: 3rem;
+    gap: 1.5rem;
     padding: 1rem;
   }
 
@@ -422,17 +369,11 @@
    80% { opacity:1; transform: translateY(8vh); }	
   100% { opacity:0; transform: translateY(17vh); }	
 }
-/* END OF ARROW ANIMATION */
-
 
 
 /* SHOW SUMMARY MODAL */
 
-.overlay {
-  width: 100%;
-  border-width: 0;
-  box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
-}
+
 
 .overlay__title {
   padding: 1rem 0 0.25rem;

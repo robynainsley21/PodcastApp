@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import Home from './components/Home'
+import Overlay from './components/newPreview'
 
 
 import './index.css'
@@ -11,6 +12,7 @@ const App = () => {
   return (
     <>
     <Home />
+    {/* <Overlay /> */}
 
     <BrowserRouter>     
       <Routes >
