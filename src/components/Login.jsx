@@ -30,7 +30,7 @@ const Copyright = (props) => {
 //hXWoWLZxWK7dCeiE 
 const defaultTheme = createTheme();
 
-const SignInSide = () => {
+const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -119,4 +119,4 @@ const SignInSide = () => {
   );
 }
 
-export default SignInSide
+export default Login
