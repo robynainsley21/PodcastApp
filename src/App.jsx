@@ -1,26 +1,22 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import Home from './components/Home'
-import Overlay from './components/newPreview'
-
+import Overlay from './components/Preview'
+import Login from './components/Login'
 
 import './index.css'
-import Seasons from './components/Seasons'
 
 
 const App = () => {
   return (
     <>
-    <Home />
-    {/* <Overlay /> */}
+    {/* <Home /> */}
+    {/* <Login /> */}
 
     <BrowserRouter>     
       <Routes >
        
-        <Route 
-          path='/Seasons' 
-          element={<Seasons  />}
-        />
+        <Route path='/' element={<Login />} />
 
       </Routes>        
     </BrowserRouter>

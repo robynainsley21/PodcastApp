@@ -1,205 +1,181 @@
+/* eslint-disable */
 import React from "react";
-import { useEffect, useState } from "react";
-import { BrowserRouter, NavLink } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import { Card, Row, Container, Button, Modal } from 'react-bootstrap';
+import '../index.css'
 
-// MUI features for preview overlay
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
+/**
+ * Logic to give structure to display each preview overlay
+ * @returns Overlay box structured with JSX
+ */
+export const DetailModal = (props) => {
+	/**
+	 * Each property specific to the selected object
+	 */
+	const { image, title, updated, description, onHide, seasons } = props
 
-const Preview = () => {
-  const [userData, setUserData] = useState([]);
+	const readableDate = (date) => {
+		const dateType = { year: 'numeric', month: 'short', day: 'numeric' }
+		return new Intl.DateTimeFormat('en-US', dateType).format(new Date(date));
+	};
 
-  const [sortOrder, setSortOrder] = useState("ascending");
+	return (
+		<>
+			<Modal
+				{...props}
+                className='overlay'
+				size="lg"
+				aria-labelledby="contained-modal-title-vcenter"
+				centered
+				>
+				<Modal.Body>
+					<Row className="title-container">
+						<Modal.Header className="fw-bolder fs-4 ">{title}</Modal.Header>
+                        <Button className='overlay-btn border-radius' onClick={onHide}>Close</Button>
+					</Row>
+					<Container>
+						<Row g-0>
+							<div className="col-lg-6">
+								<div className="overlay__preview">
+									<img className="overlay__blur" src={image} />
+									<img className="overlay__image overlay-image" src={image} /></div>
+							</div>
+							<div className="col-lg-6">
+								<div className="overlay__content">
+									<h3 className="overlay__title fw-bolder" ></h3>
+									<div className="overlay__data fw-bold">Last updated : {readableDate(updated)}</div>
+									<p className="fw-bold">Seasons : {seasons.length}</p>
+									<p className="overlay__data" >{description}</p>
+								</div>
+							</div>
+						</Row>
+					</Container>
+					<Modal.Footer className="title-container">
+						<Button className='overlay-btn border-radius'>Episodes</Button>
+					</Modal.Footer>
+				</Modal.Body>
+			</Modal>
+		</>
+	);
+}
 
-  const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  //setting error boundary
-  const [isError, setIsError] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+/**
+ * Logic to display o
+ * @returns Jsx
+ */
+const getAllPodcasts = () => {
+	
+	const [userData, setUserData] = useState([]);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+	//state to report loading error
+	const [error, setError] = useState(false);
 
-  const found = userData.find((obj) => {
-    return obj;
-  });
+	//store the fetched show information
+	const [showArray, setShowArray] = useState([]);
 
-  const fetchUserData = () => {
-    fetch("https://podcast-api.netlify.app/")
-      .then((response) => response.json())
-      .then((data) => setUserData(data));
-     
-  };
+	//state for the show summary modal
+	const [overlay, setOverlay] = useState(false);
 
-  useEffect(() => {
-    fetchUserData()
-    // .catch(error => {
-    //     console.error('Data could not be retrieved', error)
-    //     setIsError(true)
-    // })
-  }, []);
+	//state for updating the show modal
+	const [selectedShow, setSelectedShow] = useState(null);
 
-  const eachPreview = userData.map((item) => {
-    const date = new Date(item.updated).toDateString();
+	//create a function to handle the modal opening
+	const handleOpenModal = (show) => {
+		setSelectedShow(show);
+		setOverlay(true);
+	};
 
-    return (
-      <div
-        className="preview border-radius"
-        key={item.id}
-        onClick={item.handlerPreview}
-      >
-        <img className="preview-img" src={item.image} alt="show-image" />
-        <p>{item.title}</p>
-        <p>Seasons: {item.seasons}</p>
-        <p>Date: {date}</p>
-        <button onClick={handleClickOpen} className="border-radius preview-btn">
-          Preview
-        </button>
-        <button className="border-radius preview-btn">
-          <NavLink to='/Seasons'><p>Seasons</p></NavLink>
-        </button>
-      </div>
-    );
-  });
+	useEffect(() => {
+		fetch("https://podcast-api.netlify.app/")
+			.then(res => res.json())
+			.then(data => {
+				setUserData(data);
+			})
+			.catch(error => {
+				console.error("Error fetching data:", error);
+				setError(true);
+			})
+	}, [])
 
-  /**
-   * Arranging podcasts in alphabetical order based its title
-   */
-  const handleAscendingOrder = () => {
-    setSortOrder("ascending");
-    const sortedData = [...userData].sort((a, b) => {
-      if (sortOrder === "ascending") {
-        return a.title.localeCompare(b.title);
-      }
-    });
-    setUserData(sortedData);
-  };
+	if (error) {
+		return (
+			<div>Error fetching data</div>
+		)
+	}
 
-  const handleDescendingOrder = () => {
-    setSortOrder("descending");
-    const sortedData = [...userData].sort((a, b) => {
-      if (sortOrder === "descending") {
-        return b.title.localeCompare(a.title);
-      }
-    });
+	const data = userData;
+	//add show id's to array
+	const idArray = data.map(singleShow => singleShow.id)
 
-    setUserData(sortedData);
-  };
+	useEffect(() => {
+		//fetch all the show info using the showID array
+		const fetchShowData = async () => {
+			const promises = idArray.map(id => {
+				return fetch(`https://podcast-api.netlify.app/id/${id}`)
+					.then(res => res.json());
+			});
 
-  /**
-   * Arranging podcast cards by most recently updated
-   */
-  const dateRecent = () => {
-    const arrangedDate = [...userData].sort((a, b) => {
-      return b.updated.localeCompare(a.updated);
-    });
+			//use promise.all to await for all the fetch requests to complete
+			//so that the showArray array is not empty
+			const results = await Promise.all(promises);
+			setShowArray(results)
+		};
 
-    setUserData(arrangedDate);
-  };
+		fetchShowData();
+	}, [idArray])
 
-  /**
-   * Arranging podcast cards by oldest to latest
-   */
-  const dateOldest = () => {
-    const arrangedDate = [...userData].sort((a, b) => {
-      return a.updated.localeCompare(b.updated);
-    });
 
-    setUserData(arrangedDate);
-  };
-
-  /**
-   * Searching specific podcast based on user's search input
-   */
-  const handleSearch = (event) => {
-    const query = event.target.value;
-
-    const updatedUserDate = [...userData].filter((item) => {
-      return item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-    });
-
-    setUserData(updatedUserDate);
-  };
-
-  return (
-    <BrowserRouter>
-      <div>
-        <Dialog
-          fullScreen={fullScreen}
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="responsive-dialog-title"
-        >
-          <DialogTitle id="responsive-dialog-title">
-            {found && <p>{found.title}</p>}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              {found && (
-                <div key={found.id}>
-                  <img
-                    className="overlay-image"
-                    src={found.image}
-                    alt="podcast-image"
-                  />
-                  <b><p>Description:</p></b>
-                  <p>{found.description}</p>
-                  <p><b>Genres:</b> {found.genres.length}</p>
-                  <p><b>Seasons:</b> {found.seasons}</p>
+	return (
+		<>
+		            {/* <div className='search'>
+                <input className='main-search border-radius' placeholder='Search by title' onChange={handlerSearch}/>
+                <div className='alphabetical-buttons'>
+                    <button className='alpha-btn border-radius' onClick={handlerTitleOrder}>Title A-Z</button>
+                    <button className='alpha-btn border-radius' onClick={handlerTitleDescending}>Title Z-A</button>
+                    <button className='alpha-btn border-radius' onClick={handlerDateAscending}>Recent</button>
+                    <button className='alpha-btn border-radius' onClick={handlerDateDescending}>Oldest</button>                           
                 </div>
-              )}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button autoFocus onClick={handleClose}>
-              Close
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-      <div className="search">
-        <input
-          onChange={handleSearch}
-          className="main-search border-radius"
-          placeholder="Search by Name"
-        />
-        <div className="alphabetical-buttons">
-          <button
-            onClick={handleAscendingOrder}
-            className="alpha-btn border-radius"
-          >
-            Title A-Z
-          </button>
-          <button
-            onClick={handleDescendingOrder}
-            className="alpha-btn border-radius"
-          >
-            Title Z-A
-          </button>
-          <button onClick={dateRecent} className="alpha-btn border-radius">
-            Date A-Z
-          </button>
-          <button onClick={dateOldest} className="alpha-btn border-radius">
-            Date Z-A
-          </button>
-        </div>
-      </div>
+            </div> */}
+			<Row  className="grid-container">
+				{showArray.map((show, index) => {
+					return (
+						<Card key={index} className="preview border-radius">
+							<Card.Img className='overlay-image' src={show.image} />
 
-      <div className="grid-container">{eachPreview}</div>
-    </BrowserRouter>
-  );
-};
+							<Card.Body>
+                                <Card.Text>Title: {show.title}</Card.Text>
+								<Container>
 
-export default Preview;
+									<p>Genre : {show.genres}</p>
+								</Container>
+								<Button className='preview-btn border-radius' onClick={() => handleOpenModal(show)}>Preview</Button>
+							</Card.Body>
+						</Card>)
+				})
+				}
+			</Row>
+
+
+			{/* Use createPortal to render the BookModal outside the BrowseAllShows component */}
+			{ReactDOM.createPortal(
+				selectedShow &&
+				<DetailModal
+					show={overlay}
+					onHide={() => setOverlay(false)}
+					image={selectedShow.image}
+					title={selectedShow.title}
+					updated={selectedShow.updated}
+					description={selectedShow.description}
+					seasons={selectedShow.seasons}
+				/>,
+				document.body // Append the modal to the document body
+			)}
+		</>
+
+	)
+}
+
+export default getAllPodcasts
