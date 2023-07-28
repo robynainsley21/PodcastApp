@@ -66,7 +66,7 @@ export const DetailModal = (props) => {
  * Logic to display o
  * @returns Jsx
  */
-const getAllPodcasts = () => {
+const GetAllPodcasts = () => {
 	
 	const [userData, setUserData] = useState([]);
 
@@ -178,4 +178,4 @@ const getAllPodcasts = () => {
 	)
 }
 
-export default getAllPodcasts
+export default GetAllPodcasts
