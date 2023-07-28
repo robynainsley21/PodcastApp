@@ -130,6 +130,12 @@
   min-width: 80px;
 }
 
+.genre-container{
+  max-width: 90%;
+}
+
+
+
 /* OVERLAY */
 .overlay{
   color:#0B5B53;  
@@ -169,9 +175,13 @@
 
 /* SUGGESTIONS */
 .random-card-container{
-  height: 15rem;
+  height: auto;
   background-color:#17AFA0;
   margin-bottom: 2rem;
+}
+
+.suggestions-card{
+  border: 1px solid;
 }
 
 /* LOGIN */
@@ -191,7 +201,7 @@
 
   .nav{
     height: 3rem;
-    padding: .3rem 1rem;    
+    padding: .3rem 1rem;  
   }
 
   .settings{
@@ -232,9 +242,11 @@
   }
 
   .preview{
+    width: 100%;
     padding: 1rem;   
     font-size: .9rem;
     height: 300px;
+    margin: .5rem;
   }
 
   .preview > img{
@@ -248,8 +260,10 @@
   }
 
   .grid-container{
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
   }
   /* OVERLAY */
   
@@ -260,7 +274,6 @@
   .nav{
     display: flex;
     margin: 5rem auto;
-    width: 95%;
   }
 
   .logo{
@@ -308,7 +321,9 @@
     width: 10rem; 
   }
 
-
+  .preview{
+    margin-top: 2rem;
+  }
 
 
   .preview-btn{    
