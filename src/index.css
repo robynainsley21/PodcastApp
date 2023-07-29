@@ -175,6 +175,10 @@
 
 /* SUGGESTIONS */
 .random-card-container{
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
   height: auto;
   background-color:#17AFA0;
   margin-bottom: 2rem;
@@ -182,6 +186,34 @@
 
 .suggestions-card{
   border: 1px solid;
+  font-weight: 600;
+}
+
+.suggestions-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.main-suggestions{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+}
+
+.suggestion-card-btn{
+  border-radius: 1px solid;
+}
+
+.suggestion-overlay{
+  color:#F1FDFC;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.suggestion-overlay-image{
+  width: 200px;
 }
 
 /* LOGIN */

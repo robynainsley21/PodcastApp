@@ -69,37 +69,26 @@ export const DetailModal = (props) => {
 };
 
 const SearchAndArrange = (props) => {
-  const { ascending, descending, recent, oldest } = props
+  const { ascending, descending, recent, oldest, search } = props;
 
   return (
     <div className="search">
       <input
         className="main-search border-radius"
-        placeholder="Search by title" /*onChange={handlerSearch}*/
+        placeholder="Search by title"
+        onChange={search}
       />
       <div className="alphabetical-buttons">
-        <button
-          className="alpha-btn border-radius"
-          onClick={ascending}
-        >
+        <button className="alpha-btn border-radius" onClick={ascending}>
           Title A-Z
         </button>
-        <button
-          className="alpha-btn border-radius" 
-          onClick={descending}
-        >
+        <button className="alpha-btn border-radius" onClick={descending}>
           Title Z-A
         </button>
-        <button
-          className="alpha-btn border-radius" 
-          onClick={recent}
-        >
+        <button className="alpha-btn border-radius" onClick={recent}>
           Recent
         </button>
-        <button
-          className="alpha-btn border-radius" 
-          onClick={oldest}
-        >
+        <button className="alpha-btn border-radius" onClick={oldest}>
           Oldest
         </button>
       </div>
@@ -178,11 +167,10 @@ const GetAllPodcasts = () => {
     fetchShowData();
   }, [idArray]);
 
-
-/**
- * The function `handleTitleAscendingOrder` sorts the `userData` array in ascending order based on the
- * `title` property.
- */
+  /**
+   * The function `handleTitleAscendingOrder` sorts the `userData` array in ascending order based on the
+   * `title` property.
+   */
   const handleTitleAscendingOrder = () => {
     setSortOrder("ascending");
     const sortedData = [...userData].sort((a, b) => {
@@ -194,10 +182,10 @@ const GetAllPodcasts = () => {
     setUserData(sortedData);
   };
 
-/**
- * The function `handleTitleDescendingOrder` sorts the `userData` array in descending order based on
- * the `title` property.
- */
+  /**
+   * The function `handleTitleDescendingOrder` sorts the `userData` array in descending order based on
+   * the `title` property.
+   */
   const handleTitleDescendingOrder = () => {
     setSortOrder("descending");
     const sortedData = [...userData].sort((a, b) => {
@@ -207,22 +195,22 @@ const GetAllPodcasts = () => {
     });
 
     setUserData(sortedData);
-  }
+  };
 
-/**
- * The `readableDate` function takes a date as input and returns a human-readable string representation
- * of the date.
- * @returns The function `readableDate` returns a string representation of the input date in the format "Day of
- * the week Month Day Year".
- */
+  /**
+   * The `readableDate` function takes a date as input and returns a human-readable string representation
+   * of the date.
+   * @returns The function `readableDate` returns a string representation of the input date in the format "Day of
+   * the week Month Day Year".
+   */
   const readableDate = (date) => {
-    return new Date(date).toDateString()
-  }
+    return new Date(date).toDateString();
+  };
 
-/**
- * The function `dateRecent` sorts an array of user data based on the `updated` property in descending
- * order.
- */
+  /**
+   * The function `dateRecent` sorts an array of user data based on the `updated` property in descending
+   * order.
+   */
   const dateRecent = () => {
     const arrangedDate = [...userData].sort((a, b) => {
       return b.updated.localeCompare(a.updated);
@@ -231,10 +219,10 @@ const GetAllPodcasts = () => {
     setUserData(arrangedDate);
   };
 
-/**
- * The function `dateOldest` arranges the `userData` array in ascending order based on the `updated`
- * property.
- */
+  /**
+   * The function `dateOldest` arranges the `userData` array in ascending order based on the `updated`
+   * property.
+   */
   const dateOldest = () => {
     const arrangedDate = [...userData].sort((a, b) => {
       return a.updated.localeCompare(b.updated);
@@ -243,16 +231,27 @@ const GetAllPodcasts = () => {
     setUserData(arrangedDate);
   };
 
+  const handleSearch = (event) => {
+    const query = event.target.value;
+
+    const updatedUserDate = [...userData].filter((item) => {
+      return item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    });
+
+    setUserData(updatedUserDate);
+  };
 
   return (
     <>
-	<SearchAndArrange 
-		ascending={handleTitleAscendingOrder}
-    descending={handleTitleDescendingOrder}
-    recent={dateRecent}
-    oldest={dateOldest}
-	
-	/>
+
+        <SearchAndArrange
+          ascending={handleTitleAscendingOrder}
+          descending={handleTitleDescendingOrder}
+          recent={dateRecent}
+          oldest={dateOldest}
+          search={handleSearch}
+        />
+
       <Row className="grid-container">
         {showArray.map((show, index) => {
           return (
