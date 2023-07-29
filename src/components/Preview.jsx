@@ -124,17 +124,13 @@ style={{color: '#fff', width: '75%'}}
         <div className="modal-header">
           <div className="modal-title">All seasons</div>
         </div>
-        <div 
-        className="modal-desc season-container"
-        // style={{width: '100%'}}
-        >
-          <div>Content: {seasonContent}</div>
+        <div className="modal-desc season-container">
+          <div>{seasonContent}</div>
         </div>
         <div className="modal-footer">
           <button onClick={onCloseModal} className="secondary-button" >
             Close
           </button>
-
         </div>
       </div>
     </Modal.Dialog>
@@ -314,13 +310,22 @@ const GetAllPodcasts = () => {
     const seasonArray = obj.seasons
     console.log(seasonArray)
 
-    const eachSeasonTitle = seasonArray.map(season => season.title)
+    // const seasonTitles = seasonArray.map(season => season.title)
 
     return (
       <div key={obj.id}>
-        {eachSeasonTitle.map((title, index) => (
-          <p className="season-items" key={index}>Season {index + 1} : {title}</p>
-        ))}
+        {seasonArray.map((season, index) => {
+          const { image, title, episodes } = season
+          return(
+            <div className="season-items">
+              <img className='season-image' src={image} alt="season-image" />
+              <p  key={index}>Season {index + 1} : {title}</p>
+              <p>Episodes: {episodes.length}</p>
+            </div>
+            )
+        }
+
+      )}
       </div>
     )
   })
