@@ -5,7 +5,9 @@ and a description. The code also includes some styling using Bootstrap classes. 
 import React from "react";
 import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { Card, Row, Container, Button, Modal } from "react-bootstrap";
+import { Card, Row, Container, Button } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
+
 import "../index.css";
 
 /**
@@ -16,7 +18,7 @@ export const DetailModal = (props) => {
   /**
    * Each property specific to the selected object
    */
-  const { image, title, updated, description, onHide, seasons } = props;
+  const { image, title, updated, description, onHide, seasons, openSeason } = props;
 
   const readableDate = (date) => {
     const dateType = { year: "numeric", month: "short", day: "numeric" };
@@ -60,7 +62,7 @@ export const DetailModal = (props) => {
             </Row>
           </Container>
           <Modal.Footer className="title-container">
-            <Button className="overlay-btn border-radius">Episodes</Button>
+            <Button onClick={openSeason} className="overlay-btn border-radius">Episodes</Button>
           </Modal.Footer>
         </Modal.Body>
       </Modal>
@@ -96,6 +98,50 @@ const SearchAndArrange = (props) => {
   );
 };
 
+const ShowSeasons = ({isShown, onCloseModal, seasonContent}) => {
+  return (
+    <div
+    show={isShown}
+    style={{
+      display: isShown ? "flex" : "none",
+      alignItems: "center",
+      justifyContent: "center",
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: "#0B5B53",
+      zIndex: 9999,
+    }}>
+    <Modal.Dialog
+      className="modal"
+      show={isShown}
+
+style={{color: '#fff', width: '75%'}}
+    >
+      <div >
+        <div className="modal-header">
+          <div className="modal-title">All seasons</div>
+        </div>
+        <div 
+        className="modal-desc season-container"
+        // style={{width: '100%'}}
+        >
+          <div>Content: {seasonContent}</div>
+        </div>
+        <div className="modal-footer">
+          <button onClick={onCloseModal} className="secondary-button" >
+            Close
+          </button>
+
+        </div>
+      </div>
+    </Modal.Dialog>
+    </div>
+  );
+};
+
 /**
  * The code defines a React functional component called `GetAllPodcasts`. This component fetches data
  * from an API and displays it in a grid of preview cards.
@@ -119,6 +165,18 @@ const GetAllPodcasts = () => {
 
   //state to arrange the data alphabetically
   const [sortOrder, setSortOrder] = useState("ascending");
+
+  //state to open show seasons
+  const [openSeason, setOpenSeason] = useState(false);
+
+
+  const openSelectedSeason = () => {
+    setOpenSeason(true)
+  }
+
+  const closeSeason = () => {
+    setOpenSeason(false)
+  }
 
   //function to handle the modal opening
   const handleOpenModal = (show) => {
@@ -152,7 +210,7 @@ const GetAllPodcasts = () => {
   useEffect(() => {
     //fetch all the show info using the showID array
     const fetchShowData = async () => {
-      const promises = idArray.map((id) => {
+      const podcastItems = idArray.map((id) => {
         return fetch(`https://podcast-api.netlify.app/id/${id}`).then((res) =>
           res.json()
         );
@@ -160,7 +218,7 @@ const GetAllPodcasts = () => {
 
       //use promise.all to await for all the fetch requests to complete
       //so that the showArray array is not empty
-      const results = await Promise.all(promises);
+      const results = await Promise.all(podcastItems);
       setShowArray(results);
     };
 
@@ -231,6 +289,10 @@ const GetAllPodcasts = () => {
     setUserData(arrangedDate);
   };
 
+  /**
+   * The handleSearch function filters userData based on a query and updates the state with the filtered
+   * data.
+   */
   const handleSearch = (event) => {
     const query = event.target.value;
 
@@ -241,16 +303,49 @@ const GetAllPodcasts = () => {
     setUserData(updatedUserDate);
   };
 
+  /**
+   * in each array there is an array of seasons, which each have their own image.
+   * you dont have to create another fetch, just use the same state
+   * use a map to fetch the respective season content?
+   */
+
+  const seasons = showArray.map(obj => {
+    //remember that this is an array
+    const seasonArray = obj.seasons
+    console.log(seasonArray)
+
+    const eachSeasonTitle = seasonArray.map(season => season.title)
+
+    return (
+      <div key={obj.id}>
+        {eachSeasonTitle.map((title, index) => (
+          <p className="season-items" key={index}>Season {index + 1} : {title}</p>
+        ))}
+      </div>
+    )
+  })
+
+// console.log(seasons)
   return (
     <>
+    {ReactDOM.createPortal(
+      openSeason && (
+        <ShowSeasons 
+        isShown={openSeason}
+        onCloseModal={closeSeason}
+        seasonContent={seasons}
+      />
+      ),
+      document.body
+    )}
 
-        <SearchAndArrange
-          ascending={handleTitleAscendingOrder}
-          descending={handleTitleDescendingOrder}
-          recent={dateRecent}
-          oldest={dateOldest}
-          search={handleSearch}
-        />
+      <SearchAndArrange
+        ascending={handleTitleAscendingOrder}
+        descending={handleTitleDescendingOrder}
+        recent={dateRecent}
+        oldest={dateOldest}
+        search={handleSearch}
+      />
 
       <Row className="grid-container">
         {showArray.map((show, index) => {
@@ -287,6 +382,7 @@ const GetAllPodcasts = () => {
             updated={selectedShow.updated}
             description={selectedShow.description}
             seasons={selectedShow.seasons}
+            openSeason={openSelectedSeason}
           />
         ),
         document.body // Append the modal to the document body

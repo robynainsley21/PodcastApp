@@ -134,9 +134,7 @@
   max-width: 90%;
 }
 
-
-
-/* OVERLAY */
+/*PREVIEW OVERLAY */
 .overlay{
   color:#0B5B53;  
   width: 100%;
@@ -166,11 +164,6 @@
 
 .menu-title{
   font-size: 1.3rem;
-}
-
-/* FAVORITES */
-.favorite-container{
-  color:#0B5B53;
 }
 
 /* SUGGESTIONS */
@@ -220,6 +213,13 @@
 .login-main{
   color: #0B5B53;
 }
+
+/* SEASONS OVERLAY */
+.season-items{
+  border: 1px solid;
+  padding: 1rem;
+}
+
 
 @media screen and (max-width: 667px) {
   /* HERO */
