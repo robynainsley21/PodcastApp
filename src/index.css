@@ -203,7 +203,6 @@
 .random-card-container{
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   height: auto;
   background-color:#17AFA0;
@@ -343,7 +342,73 @@
   }
 }
 
-@media screen and (min-width: 667px){
+@media screen and (max-width: 800px) and (min-width: 667px) {
+    /* HERO */
+    .nav{
+      display: flex;
+      margin: 5rem auto;
+    }
+  
+    .logo{
+      width: 85px;
+      margin: 2rem 4rem;  
+    }
+  
+    .settings{
+      width: 60px;
+      height: 60px;
+      margin: 2rem 4rem;  
+    }
+  
+    .logo-name{
+      font-size: 5rem;
+    }
+  
+    .main-search{
+      height: 5rem;
+      width: 40%;
+      font-size: 1.35rem;
+      padding: .3rem;
+      margin: 5rem;
+    }
+  
+    .alphabetical-buttons{
+      margin: 3rem;
+      width: 100%;
+    }
+  
+    .alphabetical-buttons > button{
+      height: 4rem;
+      font-size: 1.2rem;
+    }
+  
+    .title{
+      font-size: 5rem;
+      margin-left: 10rem;
+    }
+  
+    /* PREVIEW */
+    .preview > img{
+      width: 10rem; 
+    }
+  
+    .preview{
+      margin-top: 2rem;
+    }
+  
+    .preview-btn{ 
+      width: auto;   
+      font-size: 1rem;
+      padding: .4rem 1rem;
+    }
+  
+    .grid-container{
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+}
+
+@media screen and (min-width: 800px){
   /* HERO */
   .nav{
     display: flex;
@@ -368,7 +433,7 @@
   .main-search{
     height: 5rem;
     width: 40%;
-    font-size: 2.3rem;
+    font-size: 1.5rem;
     padding: 1rem;
     margin: 5rem;
   }
@@ -406,6 +471,6 @@
 
   .grid-container{
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: 1rem;
   }
 }
