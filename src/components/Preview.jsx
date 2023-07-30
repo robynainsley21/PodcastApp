@@ -18,7 +18,8 @@ export const DetailModal = (props) => {
   /**
    * Each property specific to the selected object
    */
-  const { image, title, updated, description, onHide, seasons, openSeason } = props;
+  const { image, title, updated, description, onHide, seasons, openSeason } =
+    props;
 
   const readableDate = (date) => {
     const dateType = { year: "numeric", month: "short", day: "numeric" };
@@ -41,7 +42,7 @@ export const DetailModal = (props) => {
               Close
             </Button>
           </Row>
-          <Container>
+          <Container style={{ overflowY: "auto", maxHeight: "80vh" }}>
             <Row g-0>
               <div className="col-lg-6">
                 <div className="overlay__preview">
@@ -62,7 +63,9 @@ export const DetailModal = (props) => {
             </Row>
           </Container>
           <Modal.Footer className="title-container">
-            <Button onClick={openSeason} className="overlay-btn border-radius">Episodes</Button>
+            <Button onClick={openSeason} className="overlay-btn border-radius">
+              Seasons
+            </Button>
           </Modal.Footer>
         </Modal.Body>
       </Modal>
@@ -98,42 +101,76 @@ const SearchAndArrange = (props) => {
   );
 };
 
-const ShowSeasons = ({isShown, onCloseModal, seasonContent}) => {
+const ShowSeasons = ({
+  isShown,
+  onCloseModal,
+  openEpisodes,
+  seasonContent,
+  closeEpisodes,
+}) => {
+  const createEpisodes = () => {
+    return (
+      <div
+        show={openEpisodes}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "#0B5B53",
+          zIndex: 9999,
+        }}
+      >
+        Add your episode content here
+        <button onClick={closeEpisodes}>Close Episodes</button>
+      </div>
+    );
+  };
+
   return (
     <div
-    show={isShown}
-    style={{
-      display: isShown ? "flex" : "none",
-      alignItems: "center",
-      justifyContent: "center",
-      position: "fixed",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "#0B5B53",
-      zIndex: 9999,
-    }}>
-    <Modal.Dialog
-      className="modal"
       show={isShown}
-
-style={{color: '#fff', width: '75%'}}
+      style={{
+        display: isShown ? "flex" : "none",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "#0B5B53",
+        zIndex: 9999,
+      }}
     >
-      <div >
-        <div className="modal-header">
+      <Modal.Dialog
+        className="modal"
+        show={isShown}
+        style={{ color: "#fff", width: "75%" }}
+      >
+        <div
+          className="modal-header"
+          style={{ display: "flex", justifyContent: "space-around" }}
+        >
           <div className="modal-title">All seasons</div>
-        </div>
-        <div className="modal-desc season-container">
-          <div>{seasonContent}</div>
-        </div>
-        <div className="modal-footer">
-          <button onClick={onCloseModal} className="secondary-button" >
+          <button
+            onClick={onCloseModal}
+            className="secondary-button episode-btn border-radius"
+          >
             Close
           </button>
         </div>
-      </div>
-    </Modal.Dialog>
+        <div style={{ overflowY: "auto", maxHeight: "80vh" }}>
+          <div className="modal-desc season-container">
+            <div>{seasonContent}</div>
+
+            {/* put overlay of episodes */}
+            {openEpisodes && 
+            <div>{createEpisodes}</div>}
+          </div>
+        </div>
+      </Modal.Dialog>
     </div>
   );
 };
@@ -165,17 +202,32 @@ const GetAllPodcasts = () => {
   //state to open show seasons
   const [openSeason, setOpenSeason] = useState(false);
 
+  const [showEpisodesOverlay, setShowEpisodesOverlay] = useState(false);
+
+  // State to store the selected show's seasons
+  const [selectedSeasons, setSelectedSeasons] = useState([]);
+
+  const openEpisodes = () => {
+    setShowEpisodesOverlay(true);
+  };
+
+  const closeEpisodes = () => {
+    setShowEpisodesOverlay(false);
+  };
 
   const openSelectedSeason = () => {
-    setOpenSeason(true)
-  }
+    setOpenSeason(true);
+  };
 
   const closeSeason = () => {
-    setOpenSeason(false)
-  }
+    setOpenSeason(false);
+  };
 
   //function to handle the modal opening
   const handleOpenModal = (show) => {
+    //when the preview overlay opens, the 'selectedShow' state becomes the selected show and the
+    //respective seasons are selected
+    setSelectedSeasons(show.seasons);
     setSelectedShow(show);
     setOverlay(true);
   };
@@ -305,44 +357,60 @@ const GetAllPodcasts = () => {
    * use a map to fetch the respective season content?
    */
 
-  const seasons = showArray.map(obj => {
-    //remember that this is an array
-    const seasonArray = obj.seasons
-    console.log(seasonArray)
+  const seasons = selectedSeasons.map((season, index) => {
+    const { image, title, episodes } = season;
 
-    // const seasonTitles = seasonArray.map(season => season.title)
+    //put the episode content generation here
+    const seeEpisodes = () => {
+      const episodeArray = episodes;
 
+      return (
+        <Modal.Dialog
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "#0B5B53",
+            zIndex: 9999,
+          }}
+        >
+          <div>
+            {episodeArray.map((episode) => {
+              return <p>Title: {episode.title}</p>; // Use return here
+            })}
+          </div>
+        </Modal.Dialog>
+      );
+    };
     return (
-      <div key={obj.id}>
-        {seasonArray.map((season, index) => {
-          const { image, title, episodes } = season
-          return(
-            <div className="season-items">
-              <img className='season-image' src={image} alt="season-image" />
-              <p  key={index}>Season {index + 1} : {title}</p>
-              <p>Episodes: {episodes.length}</p>
-            </div>
-            )
-        }
-
-      )}
+      <div className="season-items" key={index}>
+        <img className="season-image" src={image} alt="season-image" />
+        <p>{title}</p>
+        <p>Episodes: {episodes.length}</p>
+        <button onClick={openEpisodes} className="episode-btn border-radius">
+          See Episodes
+        </button>
       </div>
-    )
-  })
+    );
+  });
 
-// console.log(seasons)
+  // console.log(seasons)
   return (
     <>
-    {ReactDOM.createPortal(
-      openSeason && (
-        <ShowSeasons 
-        isShown={openSeason}
-        onCloseModal={closeSeason}
-        seasonContent={seasons}
-      />
-      ),
-      document.body
-    )}
+      {ReactDOM.createPortal(
+        openSeason && (
+          <ShowSeasons
+            isShown={openSeason}
+            onCloseModal={closeSeason}
+            seasonContent={seasons}
+            openEpisodes={showEpisodesOverlay}
+            closeEpisodes={closeEpisodes}
+          />
+        ),
+        document.body
+      )}
 
       <SearchAndArrange
         ascending={handleTitleAscendingOrder}

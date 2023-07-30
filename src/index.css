@@ -225,6 +225,12 @@
   width: 80px;
 }
 
+.episode-btn{
+  padding: .5rem;
+  background-color: #74CEC4;
+  color:#0B5B53;
+  font-weight: 600;
+}
 
 @media screen and (max-width: 667px) {
   /* HERO */
