@@ -15,7 +15,7 @@ import "../index.css";
  * Logic to give structure to display each preview overlay
  * @returns Overlay box structured with JSX
  */
-export const DetailModal = (props) => {
+export const PreviewOverlay = (props) => {
   /**
    * Each property specific to the selected object
    */
@@ -35,29 +35,40 @@ export const DetailModal = (props) => {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        style={{ backgroundColor: "#17AFA0", fontSize: "1.2rem", overflowY: "auto", maxHeight: "80vh" }}
       >
-        <Modal.Body>
+        <Modal.Body
+          style={{
+            justifyContent: "center",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "#17AFA0",
+            zIndex: 9999,
+          }}
+        >
           <Row className="title-container">
             <Modal.Header className="fw-bolder fs-4 ">{title}</Modal.Header>
             <Button className="overlay-btn border-radius" onClick={onHide}>
               Close
             </Button>
           </Row>
-          <Container style={{ overflowY: "auto", maxHeight: "80vh" }}>
+
+          <Container>
             <Row g-0>
-              <div className="col-lg-6">
+              <div>
                 <div className="overlay__preview">
                   <img className="overlay__blur" src={image} />
                   <img className="overlay__image overlay-image" src={image} />
                 </div>
               </div>
-              <div className="col-lg-6">
+              <div>
                 <div className="overlay__content">
                   <h3 className="overlay__title fw-bolder"></h3>
-                  <div className="overlay__data fw-bold">
-                    Last updated : {readableDate(updated)}
-                  </div>
-                  <p className="fw-bold">Seasons : {seasons.length}</p>
+                  <div>Last updated : {readableDate(updated)}</div>
+                  <p>Seasons : {seasons.length}</p>
                   <p className="overlay__data">{description}</p>
                 </div>
               </div>
@@ -74,6 +85,13 @@ export const DetailModal = (props) => {
   );
 };
 
+/**
+ * The SearchAndArrange component is a React component that renders a search input and buttons for
+ * sorting and filtering data.
+ * @returns The SearchAndArrange component returns JSX elements. These elements are responsible for
+ * arranging the show titles in both alphabetical and reverse alphabetical order, as well as
+ * arranging their dates from oldest to the most recent
+ */
 const SearchAndArrange = (props) => {
   const { ascending, descending, recent, oldest, search } = props;
 
@@ -102,6 +120,10 @@ const SearchAndArrange = (props) => {
   );
 };
 
+/*
+ * The code below is a React component called `ShowSeasons`. It is responsible for rendering a modal
+ * that displays all the seasons and episodes of a selected show.
+ */
 const ShowSeasons = ({
   isShown,
   onCloseModal,
@@ -112,7 +134,7 @@ const ShowSeasons = ({
 }) => {
   const episodes = selectedShow.seasons.map((season, index) => {
     return (
-      <div key={index} >
+      <div key={index}>
         {season.episodes.map((episode, episodeIndex) => (
           <div
             key={episodeIndex}
@@ -147,7 +169,6 @@ const ShowSeasons = ({
       </div>
     );
   });
-  console.log(selectedShow.seasons);
 
   return (
     <div
@@ -161,7 +182,7 @@ const ShowSeasons = ({
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: "#0B5B53",
+        backgroundColor: "#17AFA0",
         zIndex: 9999,
       }}
     >
@@ -174,7 +195,7 @@ const ShowSeasons = ({
           className="modal-header"
           style={{ display: "flex", justifyContent: "space-around" }}
         >
-          <div className="modal-title">All seasons</div>
+          <div className="modal-title" style={{fontSize: '1.3rem'}}>All seasons</div>
           <button
             onClick={onCloseModal}
             className="secondary-button episode-btn border-radius"
@@ -199,14 +220,17 @@ const ShowSeasons = ({
                   backgroundColor: "#92CBC5",
                   color: "#000",
                   zIndex: 9999,
-                  overflowY: "auto",
-                  maxHeight: "100vh",
+
                   padding: "1rem",
                 }}
               >
-                <button onClick={closeEpisodes}>Back to seasons</button>
+                <div style={{display: 'flex' }}>
+                  <button onClick={closeEpisodes}>Back to seasons</button>
+                </div>
 
-                <div>{episodes}</div>
+                <div style={{ overflowY: "auto", maxHeight: "100vh" }}>
+                  {episodes}
+                </div>
               </div>
             )}
           </div>
@@ -264,10 +288,10 @@ const GetAllPodcasts = () => {
     setOpenSeason(false);
   };
 
-  //function to handle the modal opening
+  /**
+   * The function `handleOpenModal` sets the selected seasons and show, and sets the overlay to true.
+   */
   const handleOpenModal = (show) => {
-    //when the preview overlay opens, the 'selectedShow' state becomes the selected show and the
-    //respective seasons are selected
     setSelectedSeasons(show.seasons);
     setSelectedShow(show);
     setOverlay(true);
@@ -400,36 +424,17 @@ const GetAllPodcasts = () => {
 
   const seasons = selectedSeasons.map((season, index) => {
     const { image, title, episodes } = season;
-
-    //put the episode content generation here
-    const seeEpisodes = () => {
-      const episodeArray = episodes;
-
-      return (
-        <Modal.Dialog
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "#0B5B53",
-            zIndex: 9999,
-          }}
-        >
-          <div>
-            {episodeArray.map((episode) => {
-              return <p>Title: {episode.title}</p>; // Use return here
-            })}
-          </div>
-        </Modal.Dialog>
-      );
-    };
+    
     return (
-      <div className="season-items" key={index}>
+      <div 
+      className="season-items border-radius" 
+      key={index}
+
+      >
         <img className="season-image" src={image} alt="season-image" />
         <p>{title}</p>
-        <p>Episodes: {episodes.length}</p>
+        <p>Episodes : {episodes.length}</p>
+        
         <button onClick={openEpisodes} className="episode-btn border-radius">
           See Episodes
         </button>
@@ -471,7 +476,7 @@ const GetAllPodcasts = () => {
               <Card.Body className="preview-body">
                 <Card.Text>Title: {show.title}</Card.Text>
                 <Container className="genre-container">
-                  <p>Genre : {show.genres}</p>
+                  {show.genres && <p>Genre : {show.genres}</p>}
                   <p>Date updated: {readableDate(show.updated)}</p>
                 </Container>
                 <Button
@@ -489,7 +494,7 @@ const GetAllPodcasts = () => {
       {/* Use createPortal to render the BookModal outside the BrowseAllShows component */}
       {ReactDOM.createPortal(
         selectedShow && (
-          <DetailModal
+          <PreviewOverlay
             show={overlay}
             onHide={() => setOverlay(false)}
             image={selectedShow.image}

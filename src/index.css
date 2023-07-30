@@ -70,7 +70,7 @@
 .alpha-btn{
   background-color: #74CEC4;
   font-weight: 600;
-  padding: 1rem;
+  padding: 1rem 2rem;
 }
 
 .alpha-btn:hover{
@@ -120,10 +120,8 @@
 
 .preview-btn{
   width: 40%;
-  background-color:#F1FDFC;
+  background-color:#0B5B53;
   height: auto;
-  color:#0B5B53;
-
 }
 
 .preview >image{
@@ -136,14 +134,14 @@
 
 /*PREVIEW OVERLAY */
 .overlay{
-  color:#0B5B53;  
+  color:#fff;  
   width: 100%;
   border-width: 0;
   box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
 }
 
 .overlay-btn{
-  background-color: #0B5B53;
+  background-color: #17AFA0;
   padding: .4rem 1rem;
 }
 
@@ -153,17 +151,52 @@
   padding: 1rem;
 }
 
-/* HAMBURGER */
-.menu-item{
-  padding: 10px;
+.overlay__title {
+  padding: 1rem 0 0.25rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  line-height: 1;
+  letter-spacing: -0.1px;
+  max-width: 25rem;
+  margin-top: -3rem;
 }
 
-.menu-list{
-  font-size: 1.3rem;
+.overlay__blur {
+  width: 100%;
+  height: 200px;
+  filter: blur(10px);
+  opacity: 0.5;
+  transform: scale(2);
 }
 
-.menu-title{
-  font-size: 1.3rem;
+.overlay__image {
+  max-width: 15rem;
+  position: absolute;
+  top: 1.5m;
+  border-radius: 2px;
+  box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
+}
+
+.overlay__data {
+  font-size: 0.9rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
+
+.overlay__content {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  padding-top: 3rem;
+}
+
+.overlay__preview {
+  overflow: hidden;
+  margin: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* SUGGESTIONS */
@@ -218,17 +251,18 @@
 .season-items{
   border: 1px solid;
   padding: 1rem;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 .season-image{
-  width: 80px;
+  width: 90px;
 }
 
+/* EPISODES */
 .episode-btn{
   padding: .5rem;
-  background-color: #74CEC4;
-  color:#0B5B53;
+  background-color: inherit;
+  color:#fff;
   font-weight: 600;
 }
 
@@ -286,7 +320,6 @@
 
   .preview{
     width: 100%;
-    padding: 1rem;   
     font-size: .9rem;
     height: 300px;
     margin: .5rem;
@@ -308,8 +341,6 @@
    justify-content: center;
    align-items: center;
   }
-  /* OVERLAY */
-  
 }
 
 @media screen and (min-width: 667px){
@@ -348,9 +379,8 @@
   }
 
   .alphabetical-buttons > button{
-    width: 300px;
     height: 5rem;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     margin: 3rem;
   }
 
@@ -368,177 +398,14 @@
     margin-top: 2rem;
   }
 
-
-  .preview-btn{    
+  .preview-btn{ 
+    width: auto;   
     font-size: 1rem;
-    padding: .3rem;
+    padding: .4rem 1rem;
   }
 
   .grid-container{
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
   }
-
-  /* EPISODES */
-
 }
-
-/* ARROW ANIMATION */
-#arrowAnim {
-  width: 40vw;
-  height: 20vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.arrow {
-  width: 10vw;
-  height: 10vw;
-  border: 2.5vw solid;
-  border-color: blue transparent transparent blue;
-  transform: rotate(-135deg);
-}
-
-.arrowSliding {
-  position: absolute;
-  -webkit-animation: slide 4s linear infinite; 
-          animation: slide 4s linear infinite;
-}
-
-.delay1 {
-  -webkit-animation-delay: 2s; 
-    animation-delay: 2s;
-}
-.delay2 {
-  -webkit-animation-delay: 4s; 
-    animation-delay: 4s;
-}
-.delay3 {
-  -webkit-animation-delay: 6s; 
-    animation-delay: 6s;
-}
-
-@-webkit-keyframes slide {
-    0% { opacity:0; transform: translateY(-4vh); }	
-   20% { opacity:1; transform: translateY(2vh); }	
-   80% { opacity:1; transform: translateY(8vh); }	
-  100% { opacity:0; transform: translateY(17vh); }	
-}
-@keyframes slide {
-    0% { opacity:0; transform: translateY(-4vh); }	
-   20% { opacity:1; transform: translateY(2vh); }	
-   80% { opacity:1; transform: translateY(8vh); }	
-  100% { opacity:0; transform: translateY(17vh); }	
-}
-
-
-/* SHOW SUMMARY MODAL */
-
-
-
-.overlay__title {
-  padding: 1rem 0 0.25rem;
-  font-size: 1.25rem;
-  font-weight: bold;
-  line-height: 1;
-  letter-spacing: -0.1px;
-  max-width: 25rem;
-  margin-top: -3rem;
-}
-
-.overlay__blur {
-  width: 100%;
-  height: 200px;
-  filter: blur(10px);
-  opacity: 0.5;
-  transform: scale(2);
-}
-
-.overlay__image {
-  max-width: 15rem;
-  position: absolute;
-  top: 1.5m;
-  border-radius: 2px;
-  box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 1px 8px 0px rgba(0,0,0,0.12);
-}
-
-.overlay__data {
-  font-size: 0.9rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 6;
-  -webkit-box-orient: vertical;  
-  overflow: hidden;
-}
-
-.overlay__content {
-  padding: 2rem 1.5rem;
-  text-align: center;
-  padding-top: 3rem;
-}
-
-.overlay__preview {
-  overflow: hidden;
-  margin: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* END OF SUMMARY MODAL */
-
-/* USER HOME PAGE HORIZONTAL CARDS */
-
-.horizontal__control {
-  width: calc(25vw - 2rem);
-  max-width: 20rem;
-  min-width: 15rem;
-}
-
-.max__height {
-  max-height: 35vh;
-}
-
-.custom-card {
-  width: calc(50vw -2rem);
-  max-width: 20rem;
-  min-width: 15rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 1rem;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.card-img-top {
-  height: 70%;
-  object-fit: cover;
-}
-
-.card-title {
-  font-size: 0.9rem;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  margin-top: -0.2rem;
-}
-
-.container__rules {
-  height: 100%;
-  overflow-y: hidden;
-}
-
-.right__column {
-  height: 100%;
-  padding-left: 1rem;
-}
-
-.horizontal__scroll {
-  display: flex;
-  flex-wrap: nowrap;
-  max-height: calc(70vh -4rem);
-  overflow-x: auto;
-  margin-bottom: 1rem;
-}
- /* END OF USER HOME PAGE HORIZONTAL CARDS */
