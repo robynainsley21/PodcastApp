@@ -29,28 +29,11 @@
   color: #0B5B53;
   display: flex;
   justify-content: center;
+  padding-top: 2rem;
 }
 
 .border-radius{
   border-radius: 1rem;
-}
-
-.navigation{
-  display: flex;
-  align-items: center;
-}
-
-.browse{
-  font-size: 2.5rem;
-  color:#F1FDFC ;
-}
-
-.navigation > a{
-  text-decoration: none;  
-}
-
-.nav-item{
-  margin: 1rem;
 }
 
 /* SEARCH BUTTONS */
@@ -91,12 +74,12 @@
   background-color: #17AFA0;
   color:#92CBC5;
   font-weight: 600;
-  font-size: 1.3rem
+  font-size: 1.3rem;
 }
 
 .home-card:hover{
   background-color:#F1FDFC;
-  color:#0B5B53
+  color:#0B5B53;
 }
 
 .preview{
@@ -302,10 +285,6 @@
   .alphabetical-buttons{
     margin: 5px;
   }
-
-  .navigation{
-    margin-right: 1rem;
-  }
   
   .browse{
     font-size: 1rem;
@@ -350,6 +329,7 @@
     }
   
     .logo{
+      height: 85px;
       width: 85px;
       margin: 2rem 4rem;  
     }

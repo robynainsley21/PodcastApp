@@ -8,6 +8,7 @@ import ReactDOM from "react-dom";
 import { Card, Row, Container, Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import ReactPlayer from "react-player";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 import "../index.css";
 
@@ -35,7 +36,12 @@ export const PreviewOverlay = (props) => {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        style={{ backgroundColor: "#17AFA0", fontSize: "1.2rem", overflowY: "auto", maxHeight: "80vh" }}
+        style={{
+          backgroundColor: "#17AFA0",
+          fontSize: "1.2rem",
+          overflowY: "auto",
+          maxHeight: "80vh",
+        }}
       >
         <Modal.Body
           style={{
@@ -195,7 +201,9 @@ const ShowSeasons = ({
           className="modal-header"
           style={{ display: "flex", justifyContent: "space-around" }}
         >
-          <div className="modal-title" style={{fontSize: '1.3rem'}}>All seasons</div>
+          <div className="modal-title" style={{ fontSize: "1.3rem" }}>
+            All seasons
+          </div>
           <button
             onClick={onCloseModal}
             className="secondary-button episode-btn border-radius"
@@ -224,8 +232,20 @@ const ShowSeasons = ({
                   padding: "1rem",
                 }}
               >
-                <div style={{display: 'flex' }}>
-                  <button onClick={closeEpisodes}>Back to seasons</button>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  <button
+                    className="episode-btn border-radius"
+                    style={{ color: "#0B5B53" }}
+                    onClick={closeEpisodes}
+                  >
+                    Back to seasons
+                  </button>
                 </div>
 
                 <div style={{ overflowY: "auto", maxHeight: "100vh" }}>
@@ -248,6 +268,9 @@ const ShowSeasons = ({
 const GetAllPodcasts = () => {
   //state to store all podcasts
   const [userData, setUserData] = useState([]);
+
+  //state to report loading state
+  const [loading, setLoading] = useState(true);
 
   //state to report loading error
   const [error, setError] = useState(false);
@@ -302,10 +325,12 @@ const GetAllPodcasts = () => {
       .then((res) => res.json())
       .then((data) => {
         setUserData(data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
         setError(true);
+        setLoading(false);
       });
   }, []);
 
@@ -324,9 +349,8 @@ const GetAllPodcasts = () => {
     //fetch all the show info using the showID array
     const fetchShowData = async () => {
       const podcastItems = idArray.map((id) => {
-        return fetch(`https://podcast-api.netlify.app/id/${id}`).then((res) =>
-          res.json()
-        );
+        return fetch(`https://podcast-api.netlify.app/id/${id}`)
+        .then((res) => res.json());
       });
 
       //use promise.all to await for all the fetch requests to complete
@@ -424,17 +448,13 @@ const GetAllPodcasts = () => {
 
   const seasons = selectedSeasons.map((season, index) => {
     const { image, title, episodes } = season;
-    
-    return (
-      <div 
-      className="season-items border-radius" 
-      key={index}
 
-      >
+    return (
+      <div className="season-items border-radius" key={index}>
         <img className="season-image" src={image} alt="season-image" />
         <p>{title}</p>
         <p>Episodes : {episodes.length}</p>
-        
+
         <button onClick={openEpisodes} className="episode-btn border-radius">
           See Episodes
         </button>
@@ -445,20 +465,6 @@ const GetAllPodcasts = () => {
   // console.log(seasons)
   return (
     <>
-      {ReactDOM.createPortal(
-        openSeason && (
-          <ShowSeasons
-            isShown={openSeason}
-            onCloseModal={closeSeason}
-            seasonContent={seasons}
-            openEpisodes={showEpisodesOverlay}
-            closeEpisodes={closeEpisodes}
-            selectedShow={selectedShow}
-          />
-        ),
-        document.body
-      )}
-
       <SearchAndArrange
         ascending={handleTitleAscendingOrder}
         descending={handleTitleDescendingOrder}
@@ -466,31 +472,38 @@ const GetAllPodcasts = () => {
         oldest={dateOldest}
         search={handleSearch}
       />
+      {loading ? (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      ) : (
+        <Row className="grid-container">
+          {showArray.map((show, index) => {
+            return (
+              <Card key={index} className="preview border-radius">
+                <Card.Img className="overlay-image" src={show.image} />
 
-      <Row className="grid-container">
-        {showArray.map((show, index) => {
-          return (
-            <Card key={index} className="preview border-radius">
-              <Card.Img className="overlay-image" src={show.image} />
-
-              <Card.Body className="preview-body">
-                <Card.Text>Title: {show.title}</Card.Text>
-                <Container className="genre-container">
-                  {show.genres && <p>Genre : {show.genres}</p>}
-                  <p>Date updated: {readableDate(show.updated)}</p>
-                </Container>
-                <Button
-                  className="preview-btn border-radius"
-                  onClick={() => handleOpenModal(show)}
-                >
-                  Preview
-                </Button>
-              </Card.Body>
-            </Card>
-          );
-        })}
-      </Row>
-
+                <Card.Body className="preview-body">
+                  <Card.Text>Title: {show.title}</Card.Text>
+                  <Container className="genre-container">
+                    {show.genres && <p>Genre : {show.genres}</p>}
+                    <p>Date updated: {readableDate(show.updated)}</p>
+                  </Container>
+                  <Button
+                    className="preview-btn border-radius"
+                    onClick={() => handleOpenModal(show)}
+                  >
+                    Preview
+                  </Button>
+                </Card.Body>
+              </Card>
+            );
+          })}
+        </Row>
+      )}
       {/* Use createPortal to render the BookModal outside the BrowseAllShows component */}
       {ReactDOM.createPortal(
         selectedShow && (
@@ -506,6 +519,19 @@ const GetAllPodcasts = () => {
           />
         ),
         document.body // Append the modal to the document body
+      )}
+      {ReactDOM.createPortal(
+        openSeason && (
+          <ShowSeasons
+            isShown={openSeason}
+            onCloseModal={closeSeason}
+            seasonContent={seasons}
+            openEpisodes={showEpisodesOverlay}
+            closeEpisodes={closeEpisodes}
+            selectedShow={selectedShow}
+          />
+        ),
+        document.body
       )}
     </>
   );
