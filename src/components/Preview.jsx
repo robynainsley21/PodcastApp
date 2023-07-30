@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Card, Row, Container, Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
+import ReactPlayer from "react-player";
 
 import "../index.css";
 
@@ -107,26 +108,46 @@ const ShowSeasons = ({
   openEpisodes,
   seasonContent,
   closeEpisodes,
+  selectedShow,
 }) => {
-  const createEpisodes = () => {
+  const episodes = selectedShow.seasons.map((season, index) => {
     return (
-      <div
-        show={openEpisodes}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: "#0B5B53",
-          zIndex: 9999,
-        }}
-      >
-        Add your episode content here
-        <button onClick={closeEpisodes}>Close Episodes</button>
+      <div key={index} >
+        {season.episodes.map((episode, episodeIndex) => (
+          <div
+            key={episodeIndex}
+            style={{
+              border: "1px solid",
+              padding: "1rem",
+              marginBottom: ".7rem",
+              fontSize: "1.1rem",
+            }}
+          >
+            <h3>
+              <b>Episode:</b> {episode.episode}
+            </h3>
+            <p>
+              <b>Title:</b> {episode.title}
+            </p>
+            {episode.description && (
+              <div>
+                <p>
+                  <b>Episode description:</b> {episode.description}
+                </p>
+              </div>
+            )}
+            <ReactPlayer
+              url={episode.file}
+              controls="true"
+              height="70px"
+              width="80%"
+            />
+          </div>
+        ))}
       </div>
     );
-  };
+  });
+  console.log(selectedShow.seasons);
 
   return (
     <div
@@ -158,7 +179,7 @@ const ShowSeasons = ({
             onClick={onCloseModal}
             className="secondary-button episode-btn border-radius"
           >
-            Close
+            Back to show
           </button>
         </div>
         <div style={{ overflowY: "auto", maxHeight: "80vh" }}>
@@ -166,8 +187,28 @@ const ShowSeasons = ({
             <div>{seasonContent}</div>
 
             {/* put overlay of episodes */}
-            {openEpisodes && 
-            <div>{createEpisodes}</div>}
+            {openEpisodes && (
+              <div
+                show={openEpisodes}
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: "#92CBC5",
+                  color: "#000",
+                  zIndex: 9999,
+                  overflowY: "auto",
+                  maxHeight: "100vh",
+                  padding: "1rem",
+                }}
+              >
+                <button onClick={closeEpisodes}>Back to seasons</button>
+
+                <div>{episodes}</div>
+              </div>
+            )}
           </div>
         </div>
       </Modal.Dialog>
@@ -407,6 +448,7 @@ const GetAllPodcasts = () => {
             seasonContent={seasons}
             openEpisodes={showEpisodesOverlay}
             closeEpisodes={closeEpisodes}
+            selectedShow={selectedShow}
           />
         ),
         document.body
