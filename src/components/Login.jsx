@@ -4,25 +4,34 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import supabase from "../supabaseClient";
 import Home from "./Home";
 
-export default function Login() {
+const Login = () => {
   const [session, setSession] = useState(null);
 
   const [showLoginForm, setShowLoginForm] = useState(false); // Track whether to show the login form or not
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
+    const storedSession = localStorage.getItem("supabaseSession");
+    if (storedSession && !session) {
+        setSession(JSON.parse(storedSession))
+    } else {
+      setShowLoginForm(true); // If no session, show the login form
+    }
 
     //subscribe to authentication state changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      if (session) {
+        localStorage.setItem("supabaseSession", JSON.stringify(session)); // Store the session in localStorage
+      } else {
+        localStorage.removeItem("supabaseSession"); // If session is null, remove it from localStorage
+      }
     });
 
     return () => subscription.unsubscribe();
   }, []);
+
 
   // Function to handle successful login
   const handleLoginSuccess = (session) => {
@@ -67,6 +76,7 @@ export default function Login() {
           onlyThirdPartyProviders={false}
           onAuthSuccess={handleLoginSuccess} // Handle successful login
           onAuthError={handleLoginError} // Handle login errors
+          style={{width: ''}}
         />
         <button onClick={cancelLogin}>Cancel</button>{" "}
         {/* Add a button to cancel login */}
@@ -80,3 +90,4 @@ export default function Login() {
   // If the user is logged in, redirect to the Home page
 
 }
+ export default Login
