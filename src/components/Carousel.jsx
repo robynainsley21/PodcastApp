@@ -12,8 +12,6 @@ import { Row, Container, Button } from "react-bootstrap";
 const Suggestions = () => {
   const [userData, setUserData] = useState([]);
 
-  const [error, setError] = useState("");
-
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -153,7 +151,9 @@ const Suggestions = () => {
                       backgroundColor: "#17AFA0",
                       border: "1px solid",
                       marginBottom: "1rem",
+                      padding: '.5rem'
                     }}
+                    className="border-radius"
                     onClick={openPreview}
                   >
                     Preview
