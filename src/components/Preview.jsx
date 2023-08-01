@@ -1,4 +1,4 @@
-/* The code provided is a React component that fetches data from an API and displays it in a grid of
+/* The code below fetches data from an API and displays it in a grid of
 preview cards. When a user clicks on a preview card, a modal overlay is displayed with more details
 about the selected item. The modal includes an image, title, last updated date, number of seasons,
 and a description. The code also includes some styling using Bootstrap classes. */
@@ -17,9 +17,6 @@ import "../index.css";
  * @returns Overlay box structured with JSX
  */
 export const PreviewOverlay = (props) => {
-  /**
-   * Each property specific to the selected object
-   */
   const { image, title, updated, description, onHide, seasons, openSeason } =
     props;
 
@@ -127,7 +124,7 @@ const SearchAndArrange = (props) => {
 };
 
 /*
- * The code below is a React component called `ShowSeasons`. It is responsible for rendering a modal
+ *The component 'ShowSeasons' is responsible for rendering a modal
  * that displays all the seasons and episodes of a selected show.
  */
 const ShowSeasons = ({
@@ -215,7 +212,9 @@ const ShowSeasons = ({
           <div className="modal-desc season-container">
             <div>{seasonContent}</div>
 
-            {/* Overlay of episodes that opens when you click 'See episodes' on season overlay*/}
+           {/* The code below is the structure for the episode modal. It renders conditionally
+           based on the value of the `openEpisodes` state, and open when the user selects the 
+           'See episodes' button when they are in the season view of a show  */}
             {openEpisodes && (
               <div
                 show={openEpisodes}
@@ -261,8 +260,9 @@ const ShowSeasons = ({
 };
 
 /**
- * The code defines a React functional component called `GetAllPodcasts`. This component fetches data
- * from an API and displays it in a grid of preview cards.
+ * This component fetches data from an API collecting all the podcast data and displays it 
+ * in a grid of cards. Each card display a summary preview of the show, with the option to 
+ * view all its seasons
  * @returns All podcasts structured with JSX
  */
 const GetAllPodcasts = () => {
@@ -321,7 +321,7 @@ const GetAllPodcasts = () => {
   };
 
   /**
-   * Fetch to retrieve all data to be stored the state 'userData
+   * The fetch to retrieve all data to be stored in the state 'userData'
    */
   useEffect(() => {
     fetch("https://podcast-api.netlify.app/")
@@ -347,13 +347,13 @@ const GetAllPodcasts = () => {
   const data = userData;
 
   /**
-   * An array to store all of the data's
+   * An array to store all of the data's id's
    */
   const idArray = data.map((singleShow) => singleShow.id);
 
   useEffect(() => {
     /**
-     * Map over the array of id's and created another fetch with an endpoint using each id
+     * Map over the array of id's and created another fetch with an endpoint url using each id
      */
     const fetchShowData = async () => {
       const podcastItems = idArray.map((id) => {
@@ -365,7 +365,6 @@ const GetAllPodcasts = () => {
        * Used an await for all the fetch requests to complete so that the showArray
        * array is not empty
        */ 
-      //
       const results = await Promise.all(podcastItems);
       setShowArray(results);
     };
@@ -373,6 +372,11 @@ const GetAllPodcasts = () => {
     fetchShowData();
   }, [idArray]);
 
+  /**
+   * This section creates the functionality of ordering all the data titles into alphabetical order,
+   * reverse alphabetical order, arranges all data based on recently updated, to the oldest, as
+   * well as retrieves all shows with any title the user inputs
+   */
   /**
    * The function `handleTitleAscendingOrder` sorts the `userData` array in ascending order based on the
    * `title` property.
@@ -450,11 +454,14 @@ const GetAllPodcasts = () => {
     setUserData(updatedUserDate);
   };
 
-/* The below code is mapping over an array called `selectedSeasons` (which is a state returning 
-  true if a season is selected) and creating a new array called
-  `seasons`. For each element in `selectedSeasons`, it is extracting the `image`, `title`, and
+/**
+ * The below code is mapping over an array called `selectedSeasons` (which is a state returning 
+  true if a season is selected) and creates a new array called
+  `seasons`. For each element in `selectedSeasons`, it extracts the `image`, `title`, and
   `episodes` properties. It then returns a JSX element that displays all of aforementioned. 
-  It also includes a button that, when clicked, calls the `openEpisodes` function.  */
+  It also includes a button that, when clicked, calls the `openEpisodes` function and returns
+  a modal of all available episodes for that chosen season.
+ */
   const seasons = selectedSeasons.map((season, index) => {
     const { image, title, episodes } = season;
 
@@ -512,7 +519,9 @@ const GetAllPodcasts = () => {
           })}
         </Row>
       )}
-      {/* Use createPortal to render the BookModal outside the BrowseAllShows component */}
+      {/* The below code uses the `ReactDOM.createPortal` method to render two components 
+      (which are the overlays to view a show's preview and seasons) as portals into the 
+      `document.body` element.  */}
       {ReactDOM.createPortal(
         selectedShow && (
           <PreviewOverlay
@@ -526,7 +535,7 @@ const GetAllPodcasts = () => {
             openSeason={openSelectedSeason}
           />
         ),
-        document.body // Append the modal to the document body
+        document.body
       )}
       {ReactDOM.createPortal(
         openSeason && (

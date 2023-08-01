@@ -20,9 +20,6 @@ function Copyright(props) {
     return (
       <Typography variant="body2" color="#0B5B53" align="center" {...props}>
         {'Copyright © Podify '}
-
-          
-
         {new Date().getFullYear()}
         {'.'}
       </Typography>

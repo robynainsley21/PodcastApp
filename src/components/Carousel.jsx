@@ -9,11 +9,22 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Row, Container, Button } from "react-bootstrap";
 
+/**
+ * The `Suggestions` component is a React component that fetches data from an API and displays a
+ * carousel of suggestions with preview functionality.
+ *
+ * @returns The component is returning a JSX fragment that contains a title ("Suggestions")
+ * and a list of cards. Each card represents a show and includes the show's title, image, 
+ * number of seasons, and a "Preview" button. When the "Preview" button is clicked, a modal
+ * overlay is displayed with more details about the show, including the show's image, title,
+ * last updated date, and description
+ */
 const Suggestions = () => {
+  //state to hold all the data from the fetch call
   const [userData, setUserData] = useState([]);
 
+  //state that controls suggestion preview
   const [openStates, setOpenStates] = useState({});
-
 
   useEffect(() => {
     fetch("https://podcast-api.netlify.app/")
@@ -22,18 +33,30 @@ const Suggestions = () => {
   });
 
   const carouselArray = userData.slice(0, 20);
-  const [open, setOpen] = useState(false);
-
 
   const openPreview = (id) => {
-setOpenStates((prevState) => ({...prevState, [id]: true}))
+    setOpenStates((prevState) => ({ ...prevState, [id]: true }));
   };
 
   const closePreview = (id) => {
-    setOpenStates((prevState) => ({...prevState, [id]: false}))
+    setOpenStates((prevState) => ({ ...prevState, [id]: false }));
   };
 
-  const Preview = ({ image, title, updated, description, onHide, show, id }) => {
+  /**
+   * The Preview component creates a modal for each suggestion card with an image, title,
+   * a readable date, description, and a close button.
+   * @param {image, title, updated, description, onHide, show, id} param0
+   * @returns A preview JSX element for each suggestion card generated
+   */
+  const Preview = ({
+    image,
+    title,
+    updated,
+    description,
+    onHide,
+    show,
+    id,
+  }) => {
     const readableDate = (date) => {
       const dateType = { year: "numeric", month: "short", day: "numeric" };
       return new Intl.DateTimeFormat("en-US", dateType).format(new Date(date));
@@ -118,10 +141,13 @@ setOpenStates((prevState) => ({...prevState, [id]: true}))
           width: "100%",
         }}
       >
+        {/* The following code uses the `map` function to
+        iterate over the `carouselArray` (a selected amount of objects from all user data) 
+        and create a new array of cards structured with JSX, each with its own preview modal*/}
         {carouselArray.map((show, index) => {
           const { image, title, seasons, updated, description, id } = show;
 
-          const isPreviewOpen = openStates[id]
+          const isPreviewOpen = openStates[id];
           const readableDate = (date) => {
             return new Date(date).toDateString();
           };
@@ -155,7 +181,7 @@ setOpenStates((prevState) => ({...prevState, [id]: true}))
                       backgroundColor: "#17AFA0",
                       border: "1px solid",
                       marginBottom: "1rem",
-                      padding: '.5rem'
+                      padding: ".5rem",
                     }}
                     className="border-radius"
                     onClick={() => openPreview(id)}
