@@ -215,7 +215,7 @@ const ShowSeasons = ({
           <div className="modal-desc season-container">
             <div>{seasonContent}</div>
 
-            {/* put overlay of episodes */}
+            {/* Overlay of episodes that opens when you click 'See episodes' on season overlay*/}
             {openEpisodes && (
               <div
                 show={openEpisodes}
@@ -295,6 +295,9 @@ const GetAllPodcasts = () => {
   // State to store the selected show's seasons
   const [selectedSeasons, setSelectedSeasons] = useState([]);
 
+  /**
+   * Opens and closes all modals
+   */
   const openEpisodes = () => {
     setShowEpisodesOverlay(true);
   };
@@ -311,15 +314,15 @@ const GetAllPodcasts = () => {
     setOpenSeason(false);
   };
 
-  /**
-   * The function `handleOpenModal` sets the selected seasons and show, and sets the overlay to true.
-   */
   const handleOpenModal = (show) => {
     setSelectedSeasons(show.seasons);
     setSelectedShow(show);
     setOverlay(true);
   };
 
+  /**
+   * Fetch to retrieve all data to be stored the state 'userData
+   */
   useEffect(() => {
     fetch("https://podcast-api.netlify.app/")
       .then((res) => res.json())
@@ -342,19 +345,27 @@ const GetAllPodcasts = () => {
    * Saving all data in a variable to indirectly manipulate it
    */
   const data = userData;
-  //add show id's to array
+
+  /**
+   * An array to store all of the data's
+   */
   const idArray = data.map((singleShow) => singleShow.id);
 
   useEffect(() => {
-    //fetch all the show info using the showID array
+    /**
+     * Map over the array of id's and created another fetch with an endpoint using each id
+     */
     const fetchShowData = async () => {
       const podcastItems = idArray.map((id) => {
         return fetch(`https://podcast-api.netlify.app/id/${id}`)
         .then((res) => res.json());
       });
 
-      //use promise.all to await for all the fetch requests to complete
-      //so that the showArray array is not empty
+      /**
+       * Used an await for all the fetch requests to complete so that the showArray
+       * array is not empty
+       */ 
+      //
       const results = await Promise.all(podcastItems);
       setShowArray(results);
     };
@@ -432,7 +443,6 @@ const GetAllPodcasts = () => {
    */
   const handleSearch = (event) => {
     const query = event.target.value;
-
     const updatedUserDate = [...userData].filter((item) => {
       return item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
     });
@@ -440,12 +450,11 @@ const GetAllPodcasts = () => {
     setUserData(updatedUserDate);
   };
 
-  /**
-   * in each array there is an array of seasons, which each have their own image.
-   * you dont have to create another fetch, just use the same state
-   * use a map to fetch the respective season content?
-   */
-
+/* The below code is mapping over an array called `selectedSeasons` (which is a state returning 
+  true if a season is selected) and creating a new array called
+  `seasons`. For each element in `selectedSeasons`, it is extracting the `image`, `title`, and
+  `episodes` properties. It then returns a JSX element that displays all of aforementioned. 
+  It also includes a button that, when clicked, calls the `openEpisodes` function.  */
   const seasons = selectedSeasons.map((season, index) => {
     const { image, title, episodes } = season;
 
@@ -462,7 +471,6 @@ const GetAllPodcasts = () => {
     );
   });
 
-  // console.log(seasons)
   return (
     <>
       <SearchAndArrange

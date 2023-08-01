@@ -3,13 +3,12 @@ import Suggested from './Suggested'
 import Hero from './Hero'
 import GetAllPodcasts from './Preview'
 import supabase from '../supabaseClient'
-
+import Suggestions from './Carousel'
 const Home = () => {
-    console.log(supabase)
     return (
         <div>
             <Hero />
-            <Suggested />
+            <Suggestions />
             <GetAllPodcasts />
         </div>
     )

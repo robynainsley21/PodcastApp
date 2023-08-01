@@ -111,10 +111,6 @@
   min-width: 80px;
 }
 
-.genre-container{
-  max-width: 90%;
-}
-
 /*PREVIEW OVERLAY */
 .overlay{
   color:#fff;  
@@ -183,34 +179,9 @@
 }
 
 /* SUGGESTIONS */
-.random-card-container{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.carousel-image{
+  width: 100px;
   height: auto;
-  background-color:#17AFA0;
-  margin-bottom: 2rem;
-}
-
-.suggestions-card{
-  border: 1px solid;
-  font-weight: 600;
-}
-
-.suggestions-container{
-  display: flex;
-  flex-direction: row;
-}
-
-.main-suggestions{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 70%;
-}
-
-.suggestion-card-btn{
-  border-radius: 1px solid;
 }
 
 .suggestion-overlay{
@@ -255,24 +226,17 @@
   }
 
   .logo-name{
+    padding-top: 6rem;
+
     font-size: 2rem;    
-  }
-
-  .nav{
-    height: 3rem;
-    padding: .3rem 1rem;  
-  }
-
-  .settings{
-    height: 25px;
   }
 
   .main-search{
     height: 2.5rem;
-    font-size: 1.45rem; 
+    font-size: 1.2rem; 
     padding: 5px;  
     width: 70%;
-    margin-bottom: 1rem;
+    margin: 4rem;
   }
 
   .alphabetical-buttons > button{
@@ -284,11 +248,7 @@
 
   .alphabetical-buttons{
     margin: 5px;
-  }
-  
-  .browse{
-    font-size: 1rem;
-  }
+  } 
 
   /* PREVIEW */
   .title{
