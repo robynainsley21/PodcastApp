@@ -12,7 +12,8 @@ import { Row, Container, Button } from "react-bootstrap";
 const Suggestions = () => {
   const [userData, setUserData] = useState([]);
 
-  const [open, setOpen] = useState(false);
+  const [openStates, setOpenStates] = useState({});
+
 
   useEffect(() => {
     fetch("https://podcast-api.netlify.app/")
@@ -21,13 +22,15 @@ const Suggestions = () => {
   });
 
   const carouselArray = userData.slice(0, 20);
+  const [open, setOpen] = useState(false);
 
-  const openPreview = () => {
-    setOpen(true);
+
+  const openPreview = (id) => {
+setOpenStates((prevState) => ({...prevState, [id]: true}))
   };
 
-  const closePreview = () => {
-    setOpen(false);
+  const closePreview = (id) => {
+    setOpenStates((prevState) => ({...prevState, [id]: false}))
   };
 
   const Preview = ({ image, title, updated, description, onHide, show, id }) => {
@@ -118,6 +121,7 @@ const Suggestions = () => {
         {carouselArray.map((show, index) => {
           const { image, title, seasons, updated, description, id } = show;
 
+          const isPreviewOpen = openStates[id]
           const readableDate = (date) => {
             return new Date(date).toDateString();
           };
@@ -154,7 +158,7 @@ const Suggestions = () => {
                       padding: '.5rem'
                     }}
                     className="border-radius"
-                    onClick={openPreview}
+                    onClick={() => openPreview(id)}
                   >
                     Preview
                   </button>
@@ -165,9 +169,10 @@ const Suggestions = () => {
                 title={title}
                 updated={updated}
                 description={description}
-                onHide={closePreview}
-                show={open}
+                onHide={() => closePreview(id)}
+                show={isPreviewOpen}
                 id={id}
+                key={id}
               />
             </>
           );
