@@ -9,6 +9,7 @@ import { Card, Row, Container, Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import ReactPlayer from "react-player";
 import { Backdrop, CircularProgress } from "@mui/material";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import "../index.css";
 
@@ -167,6 +168,8 @@ const ShowSeasons = ({
               height="70px"
               width="80%"
             />
+            <button>here</button>
+            <FontAwesomeIcon icon={['fab', 'facebook']} />
           </div>
         ))}
       </div>
