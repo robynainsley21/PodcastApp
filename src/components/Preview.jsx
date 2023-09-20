@@ -9,7 +9,7 @@ import { Card, Row, Container, Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import ReactPlayer from "react-player";
 import { Backdrop, CircularProgress } from "@mui/material";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "../index.css";
 
@@ -137,6 +137,14 @@ const ShowSeasons = ({
   selectedShow,
 }) => {
   const episodes = selectedShow.seasons.map((season, index) => {
+    // state to control favorite star fill
+    const [isIconFilled, setIsIconFilled] = useState(false);
+
+    //controlling icon fill
+    const toggleIconFill = () => {
+      setIsIconFilled(!isIconFilled);
+    }
+
     return (
       <div key={index}>
         {season.episodes.map((episode, episodeIndex) => (
@@ -162,14 +170,19 @@ const ShowSeasons = ({
                 </p>
               </div>
             )}
-            <ReactPlayer
-              url={episode.file}
-              controls="true"
-              height="70px"
-              width="80%"
-            />
-            <button>here</button>
-            <FontAwesomeIcon icon={['fab', 'facebook']} />
+            <div className="player-favorite">
+              <ReactPlayer
+                url={episode.file}
+                controls="true"
+                height="70px"
+                width="80%"
+              />
+              <button 
+              class={`fa-regular fa-star ${isIconFilled? 'filled' : ''}`}
+              onClick={toggleIconFill}
+              // style={{backgroundColor: "#17AFA0"}}
+              ></button>
+            </div>
           </div>
         ))}
       </div>
@@ -215,7 +228,7 @@ const ShowSeasons = ({
           <div className="modal-desc season-container">
             <div>{seasonContent}</div>
 
-           {/* The code below is the structure for the episode modal. It renders conditionally
+            {/* The code below is the structure for the episode modal. It renders conditionally
            based on the value of the `openEpisodes` state, and open when the user selects the 
            'See episodes' button when they are in the season view of a show  */}
             {openEpisodes && (
@@ -263,8 +276,8 @@ const ShowSeasons = ({
 };
 
 /**
- * This component fetches data from an API collecting all the podcast data and displays it 
- * in a grid of cards. Each card display a summary preview of the show, with the option to 
+ * This component fetches data from an API collecting all the podcast data and displays it
+ * in a grid of cards. Each card display a summary preview of the show, with the option to
  * view all its seasons
  * @returns All podcasts structured with JSX
  */
@@ -360,14 +373,15 @@ const GetAllPodcasts = () => {
      */
     const fetchShowData = async () => {
       const podcastItems = idArray.map((id) => {
-        return fetch(`https://podcast-api.netlify.app/id/${id}`)
-        .then((res) => res.json());
+        return fetch(`https://podcast-api.netlify.app/id/${id}`).then((res) =>
+          res.json()
+        );
       });
 
       /**
        * Used an await for all the fetch requests to complete so that the showArray
        * array is not empty
-       */ 
+       */
       const results = await Promise.all(podcastItems);
       setShowArray(results);
     };
@@ -457,7 +471,7 @@ const GetAllPodcasts = () => {
     setUserData(updatedUserDate);
   };
 
-/**
+  /**
  * The below code is mapping over an array called `selectedSeasons` (which is a state returning 
   true if a season is selected) and creates a new array called
   `seasons`. For each element in `selectedSeasons`, it extracts the `image`, `title`, and

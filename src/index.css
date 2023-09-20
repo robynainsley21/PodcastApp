@@ -201,6 +201,32 @@
   font-weight: 600;
 }
 
+/* PLAYER AND FAVORITE SECTION */
+.player-favorite{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+/* .player-favorite:hover{
+  cursor: pointer;
+} */
+
+.filled{
+  background-color:#0B5B53;
+}
+
+.fa-regular{
+  padding: 7px;
+  border-radius: 1rem;
+  border: 1px solid #0B5B53;
+  color: #fff;
+}
+
+.fa-regular:hover{
+  cursor: pointer;
+}
+
 @media screen and (max-width: 375px) {
   /* HERO */
   .logo{
