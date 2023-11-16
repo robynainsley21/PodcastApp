@@ -33,6 +33,22 @@
   border-radius: 1rem;
 }
 
+.sign-in-button{
+  color:#0B5B53;
+  background-color:#17AFA0;
+  border: 1px solid;
+  border-radius: 7px;
+  padding: 5px 1rem;
+  cursor: pointer;
+}
+
+.hero{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 /* SEARCH BUTTONS */
 .main-search{
   background-color: #F1FDFC;
