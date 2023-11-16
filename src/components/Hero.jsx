@@ -1,18 +1,11 @@
-import React, { useState } from "react";
-import SignIn from "./SignIn";
-import { Link } from "react-router-dom"
+import React from "react";
 
 /**
  * The Hero component is a React functional component that renders a fixed position logo and
  * the logo name "Podify".
  */
 const Hero = () => {
-  const [ showSignIn, setShowSignIn ] = useState(false);
 
-  const signin = () => {
-    console.log('this button registers')
-    setShowSignIn(true)
-  }
   return (
     <>
       <div className="hero">
@@ -32,10 +25,6 @@ const Hero = () => {
             <img className="logo" src="podcast.png" alt="logo-image" />
           </div>
         </a>
-        <div>
-          
-          <Link className="sign-in-button" to='/SignIn'>Sign In</Link>
-        </div>
       </div>
       <div className="logo-name">
         <h1>Podify</h1>
